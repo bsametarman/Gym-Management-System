@@ -17,12 +17,12 @@ namespace GymManagementSystem.Entities.Concrete
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Password { get; set; }
-        public bool Gender { get; set; }
+        public string Gender { get; set; }
         public string UserRole { get; set; }
         public int MembershipTypeId { get; set; }
         public string IdentityNumber { get; set; }
         public string Address { get; set; }
-        public string BloodTypeId { get; set; }
+        public int BloodTypeId { get; set; }
         public string EmergencyPhoneNumber { get; set; }
         public int PaymentStatusId { get; set; }
         public int EnterCount { get; set; }
