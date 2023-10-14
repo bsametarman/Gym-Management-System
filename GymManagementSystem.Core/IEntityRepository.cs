@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymManagementSystem.DataAccess.DataAccess
+namespace GymManagementSystem.Core
 {
     public interface IEntityRepository<T> where T : class, IEntity, new()
     {
