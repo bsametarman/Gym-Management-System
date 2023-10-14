@@ -1568,6 +1568,20 @@
             "rid": "win"
           }
         }
+      },
+      "GymManagementSystem.Entities/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Microsoft.AspNetCore.Identity": "2.2.0",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.23"
+        },
+        "compile": {
+          "bin/placeholder/GymManagementSystem.Entities.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/GymManagementSystem.Entities.dll": {}
+        }
       }
     }
   },
@@ -3878,10 +3892,16 @@
         "system.windows.extensions.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "GymManagementSystem.Entities/1.0.0": {
+      "type": "project",
+      "path": "../GymManagementSystem.Entities/GymManagementSystem.Entities.csproj",
+      "msbuildProject": "../GymManagementSystem.Entities/GymManagementSystem.Entities.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "GymManagementSystem.Entities >= 1.0.0",
       "Microsoft.AspNetCore.Identity >= 2.2.0",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 6.0.23",
       "Microsoft.EntityFrameworkCore >= 7.0.12",
@@ -3916,7 +3936,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\bsame\\Desktop\\Projeler vs\\C#\\GymManagementSystem\\GymManagementSystem.Entities\\GymManagementSystem.Entities.csproj": {
+              "projectPath": "C:\\Users\\bsame\\Desktop\\Projeler vs\\C#\\GymManagementSystem\\GymManagementSystem.Entities\\GymManagementSystem.Entities.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
