@@ -13,9 +13,7 @@ namespace GymManagementSystem.Entities.Concrete
     {
         [Key]
         public int Id { get; set; }
-        [ForeignKey("Branch")]
         public int BranchId { get; set; }
-        public Branch Branch { get; set; }
         public string Income { get; set; }
         public string Expense { get; set; }
         public DateTime LastMaintenanceDate { get; set; }

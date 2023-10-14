@@ -13,12 +13,8 @@ namespace GymManagementSystem.Entities.Concrete
     {
         [Key]
         public int Id { get; set; }
-        [ForeignKey("AppUser")]
-        public int UserId { get; set; }
-        public AppUser AppUser { get; set; }
-        [ForeignKey("Membership")]
+        public string UserId { get; set; }
         public int MembershipId { get; set; }
-        public Membership Membership { get; set; }
         public int Price { get; set; }
         public DateTime PaymentDate { get; set; }
     }

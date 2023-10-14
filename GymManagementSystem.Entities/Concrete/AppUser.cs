@@ -19,18 +19,12 @@ namespace GymManagementSystem.Entities.Concrete
         public string Password { get; set; }
         public bool Gender { get; set; }
         public string UserRole { get; set; }
-        [ForeignKey("Membership")]
         public int MembershipTypeId { get; set; }
-        public Membership Membership { get; set; }
         public string IdentityNumber { get; set; }
         public string Address { get; set; }
-        [ForeignKey("BloodType")]
         public string BloodTypeId { get; set; }
-        public BloodType BloodType { get; set; }
         public string EmergencyPhoneNumber { get; set; }
-        [ForeignKey("PaymentStatus")]
         public int PaymentStatusId { get; set; }
-        public PaymentStatus PaymentStatus { get; set; }
         public int EnterCount { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastPaymentDate { get; set; }
