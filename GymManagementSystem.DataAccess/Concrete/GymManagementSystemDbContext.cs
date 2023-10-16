@@ -33,5 +33,6 @@ namespace GymManagementSystem.DataAccess.Concrete
         public DbSet<EnterLog> EnterLogs { get; set; }
         public DbSet<PaymentLog> PaymentLogs { get; set; }
         public DbSet<PaymentStatus> PaymentStatuses { get; set; }
+        public DbSet<Trainer> Trainers { get; set; }
     }
 }

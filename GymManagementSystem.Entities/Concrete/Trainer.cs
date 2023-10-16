@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GymManagementSystem.Entities.Concrete
 {
-    public class Trainers : IEntity
+    public class Trainer : IEntity
     {
         [Key]
         public int Id { get; set; }
