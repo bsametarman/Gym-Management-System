@@ -1,38 +1,34 @@
 ﻿using GymManagementSystem.Entities.Abstract;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GymManagementSystem.Entities.Concrete
 {
-    public class AppUser : IdentityUser, IEntity
+    public class Trainers : IEntity
     {
         [Key]
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public string Gender { get; set; }
-        public string YearOfBirth { get; set; }
-        public string UserRole { get; set; }
-        public int MembershipTypeId { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public string IdentityNumber { get; set; }
         public string Address { get; set; }
         public int BloodTypeId { get; set; }
-        public int? TrainerId { get; set; }
+        public int BranchId { get; set; }
         public string EmergencyPhoneNumber { get; set; }
-        public int PaymentStatusId { get; set; }
         public int EnterCount { get; set; }
         public DateTime CreatedDate { get; set; }
-        public DateTime LastPaymentDate { get; set; }
-        public DateTime MembershipExpirationDate { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
         public bool IsActive { get; set; }
-        
+        public int Salary { get; set; }
+        public string YearOfExperience { get; set; }
     }
 }
