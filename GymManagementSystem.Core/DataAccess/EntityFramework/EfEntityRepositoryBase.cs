@@ -33,26 +33,26 @@ namespace GymManagementSystem.Core.DataAccess.EntityFramework
             }
         }
 
-        public async Task<TEntity> Get(Expression<Func<TEntity, bool>> filter)
+        public TEntity Get(Expression<Func<TEntity, bool>> filter)
         {
             using (TContext context = new TContext())
             {
                 //return await context.Set<TEntity>().Where(filter).SingleOrDefault();
                 if (filter == null)
-                    return await context.Set<TEntity>().SingleOrDefaultAsync();
+                    return context.Set<TEntity>().SingleOrDefault();
                 else
-                    return await context.Set<TEntity>().Where(filter).SingleOrDefaultAsync();
+                    return context.Set<TEntity>().Where(filter).SingleOrDefault();
             }
         }
 
-        public async Task<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> filter = null)
+        public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
         {
             using (TContext context = new TContext())
             {
                 if (filter == null)
-                    return await context.Set<TEntity>().ToListAsync();
+                    return context.Set<TEntity>().ToList();
                 else
-                    return await context.Set<TEntity>().Where(filter).ToListAsync();
+                    return context.Set<TEntity>().Where(filter).ToList();
             }
         }
 
