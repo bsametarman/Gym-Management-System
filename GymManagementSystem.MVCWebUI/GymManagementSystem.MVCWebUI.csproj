@@ -18,4 +18,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.12" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GymManagementSystem.Business\GymManagementSystem.Business.csproj" />
+    <ProjectReference Include="..\GymManagementSystem.DataAccess\GymManagementSystem.DataAccess.csproj" />
+    <ProjectReference Include="..\GymManagementSystem.Entities\GymManagementSystem.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

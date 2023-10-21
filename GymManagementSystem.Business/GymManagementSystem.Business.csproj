@@ -8,7 +8,16 @@
 
   <ItemGroup>
     <Folder Include="Abstract\" />
-    <Folder Include="Concrete\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ninject" Version="3.3.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GymManagementSystem.Core\GymManagementSystem.Core.csproj" />
+    <ProjectReference Include="..\GymManagementSystem.DataAccess\GymManagementSystem.DataAccess.csproj" />
+    <ProjectReference Include="..\GymManagementSystem.Entities\GymManagementSystem.Entities.csproj" />
   </ItemGroup>
 
 </Project>

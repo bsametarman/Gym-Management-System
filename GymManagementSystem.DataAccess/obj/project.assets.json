@@ -1569,6 +1569,21 @@
           }
         }
       },
+      "GymManagementSystem.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "GymManagementSystem.Entities": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "7.0.12",
+          "Microsoft.EntityFrameworkCore.SqlServer": "7.0.12"
+        },
+        "compile": {
+          "bin/placeholder/GymManagementSystem.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/GymManagementSystem.Core.dll": {}
+        }
+      },
       "GymManagementSystem.Entities/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -3893,6 +3908,11 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "GymManagementSystem.Core/1.0.0": {
+      "type": "project",
+      "path": "../GymManagementSystem.Core/GymManagementSystem.Core.csproj",
+      "msbuildProject": "../GymManagementSystem.Core/GymManagementSystem.Core.csproj"
+    },
     "GymManagementSystem.Entities/1.0.0": {
       "type": "project",
       "path": "../GymManagementSystem.Entities/GymManagementSystem.Entities.csproj",
@@ -3901,6 +3921,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "GymManagementSystem.Core >= 1.0.0",
       "GymManagementSystem.Entities >= 1.0.0",
       "Microsoft.AspNetCore.Identity >= 2.2.0",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 6.0.23",
@@ -3937,6 +3958,9 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
+            "C:\\Users\\bsame\\Desktop\\Projeler vs\\C#\\GymManagementSystem\\GymManagementSystem.Core\\GymManagementSystem.Core.csproj": {
+              "projectPath": "C:\\Users\\bsame\\Desktop\\Projeler vs\\C#\\GymManagementSystem\\GymManagementSystem.Core\\GymManagementSystem.Core.csproj"
+            },
             "C:\\Users\\bsame\\Desktop\\Projeler vs\\C#\\GymManagementSystem\\GymManagementSystem.Entities\\GymManagementSystem.Entities.csproj": {
               "projectPath": "C:\\Users\\bsame\\Desktop\\Projeler vs\\C#\\GymManagementSystem\\GymManagementSystem.Entities\\GymManagementSystem.Entities.csproj"
             }

@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymManagementSystem.Business", "GymManagementSystem.Business\GymManagementSystem.Business.csproj", "{A2D77E59-3055-4CF3-A5ED-3CD5368D75D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymManagementSystem.Business", "GymManagementSystem.Business\GymManagementSystem.Business.csproj", "{A2D77E59-3055-4CF3-A5ED-3CD5368D75D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymManagementSystem.Core", "GymManagementSystem.Core\GymManagementSystem.Core.csproj", "{3D65AF12-39C4-4754-A0F4-E22AAA1C1B79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymManagementSystem.Core", "GymManagementSystem.Core\GymManagementSystem.Core.csproj", "{3D65AF12-39C4-4754-A0F4-E22AAA1C1B79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymManagementSystem.Entities", "GymManagementSystem.Entities\GymManagementSystem.Entities.csproj", "{2C6150D6-C786-4F95-A733-33B3CAB2BD05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymManagementSystem.Entities", "GymManagementSystem.Entities\GymManagementSystem.Entities.csproj", "{2C6150D6-C786-4F95-A733-33B3CAB2BD05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymManagementSystem.DataAccess", "GymManagementSystem.DataAccess\GymManagementSystem.DataAccess.csproj", "{3B16969F-7E87-46BE-B141-A7B53F1C4E88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymManagementSystem.DataAccess", "GymManagementSystem.DataAccess\GymManagementSystem.DataAccess.csproj", "{3B16969F-7E87-46BE-B141-A7B53F1C4E88}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymManagementSystem.MVCWebUI", "GymManagementSystem.MVCWebUI\GymManagementSystem.MVCWebUI.csproj", "{06149E24-D7A6-4354-9F2B-5E8A865B1590}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymManagementSystem.WebAPI", "GymManagementSystem.WebAPI\GymManagementSystem.WebAPI.csproj", "{9E39F0F2-CB42-4427-8B6E-D3983E0CE21D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{3B16969F-7E87-46BE-B141-A7B53F1C4E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B16969F-7E87-46BE-B141-A7B53F1C4E88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B16969F-7E87-46BE-B141-A7B53F1C4E88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06149E24-D7A6-4354-9F2B-5E8A865B1590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06149E24-D7A6-4354-9F2B-5E8A865B1590}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06149E24-D7A6-4354-9F2B-5E8A865B1590}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06149E24-D7A6-4354-9F2B-5E8A865B1590}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E39F0F2-CB42-4427-8B6E-D3983E0CE21D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E39F0F2-CB42-4427-8B6E-D3983E0CE21D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E39F0F2-CB42-4427-8B6E-D3983E0CE21D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E39F0F2-CB42-4427-8B6E-D3983E0CE21D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
