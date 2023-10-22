@@ -1,5 +1,6 @@
 ﻿using GymManagementSystem.Core.Utilities.Results;
 using GymManagementSystem.Entities.Concrete;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace GymManagementSystem.Business.Abstract
         IDataResult<List<AppUser>> GetAll();
         IDataResult<AppUser> GetById(string id);
         IResult GetByEmailAndPassword(string email, string password);
-        IResult Add(AppUser user);
+        Task<IResult> Add(AppUser user, UserManager<AppUser> userManager);
         IResult Update(AppUser user);
         IResult Delete(AppUser user);
     }

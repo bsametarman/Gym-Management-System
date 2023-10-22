@@ -1,7 +1,10 @@
 ﻿using GymManagementSystem.Business.Abstract;
+using GymManagementSystem.Business.Concrete;
 using GymManagementSystem.Business.DependencyResolvers.Ninject;
 using GymManagementSystem.Core.Utilities.Results;
+using GymManagementSystem.DataAccess.Concrete;
 using GymManagementSystem.Entities.Concrete;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymManagementSystem.WebAPI.Controllers
@@ -11,6 +14,12 @@ namespace GymManagementSystem.WebAPI.Controllers
     public class UserController : Controller
     {
         IUserService userService = InstanceFactory.GetInstance<IUserService>();
+        private UserManager<AppUser> _userManager;
+
+        public UserController(UserManager<AppUser> userManager)
+        {
+            _userManager = userManager;
+        }
 
         [HttpGet("getAllUsers")]
         public IActionResult GetAll()
@@ -33,10 +42,10 @@ namespace GymManagementSystem.WebAPI.Controllers
         [HttpPost("addUser")]
         public IActionResult Add(AppUser user)
         {
-            var result = userService.Add(user);
-            if (result.Success)
-                return Ok(new SuccessResult(result.Message));
-            return BadRequest(result.Message);
+            var result = userService.Add(user, _userManager);
+            if (result.Result != null)
+                return Ok(new SuccessResult("Başarıyla eklendi !"));
+            return BadRequest("Başarıyla eklendi !");
         }
 
         [HttpDelete("deleteUser")]
