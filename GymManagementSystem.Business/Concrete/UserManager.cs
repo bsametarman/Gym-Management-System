@@ -55,9 +55,11 @@ namespace GymManagementSystem.Business.Concrete
                     UserRole = userRoleToAssign,
                     IsActive = true
                 };
-                await _userManager.CreateAsync(user, user.Password);
+                var result = await _userManager.CreateAsync(user, user.Password);
+                if(result.Succeeded)
+                    return new SuccessResult("Başarıyla eklendi !!!");
             }
-            return new SuccessResult("Başarıyla eklendi !!!");
+            return new ErrorResult("Bir sorun oluştu !");
             //_userDal.Add(user);
             //return new SuccessResult("Başarıyla eklendi !!!");
         }
@@ -70,7 +72,11 @@ namespace GymManagementSystem.Business.Concrete
 
         public IDataResult<AppUser> GetById(string id)
         {
-            return new SuccessDataResult<AppUser>(_userDal.Get(u => u.Id == id), "Başarıyla listelendi !!!");
+            var user = _userDal.Get(u => u.Id == id);
+            if (user != null)
+                return new SuccessDataResult<AppUser>(user, "Başarıyla listelendi !!!");
+            else
+                return new ErrorDataResult<AppUser>("Kişi bulunamadı !");
         }
 
         public IResult GetByEmailAndPassword(string email, string password)

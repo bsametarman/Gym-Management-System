@@ -36,7 +36,7 @@ namespace GymManagementSystem.WebAPI.Controllers
             var result = userService.GetById(id);
             if (result.Success)
                 return Ok(new SuccessDataResult<AppUser>(result.Data, result.Message));
-            return BadRequest(result.Message);
+            return NotFound(new ErrorDataResult<AppUser>(result.Data, result.Message));
         }
 
         [HttpPost("addUser")]
@@ -45,7 +45,7 @@ namespace GymManagementSystem.WebAPI.Controllers
             var result = userService.Add(user, _userManager);
             if (result.Result != null)
                 return Ok(new SuccessResult("Başarıyla eklendi !"));
-            return BadRequest("Başarıyla eklendi !");
+            return BadRequest(result.Result.Message);
         }
 
         [HttpDelete("deleteUser")]
