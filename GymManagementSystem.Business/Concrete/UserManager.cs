@@ -99,5 +99,32 @@ namespace GymManagementSystem.Business.Concrete
             _userDal.Update(user);
             return new SuccessResult("Başarıyla güncellendi !!!");
         }
+
+        public IResult CheckUserStatus(string username, string password)
+        {
+            var user = _userDal.Get(u => u.UserName == username && u.Password == password);
+            
+            if(user != null)
+            {
+                if ((DateTime.Now - user.MembershipExpirationDate).Days > 3)
+                {
+                    user.IsActive = false;
+                    _userDal.Update(user);
+                }
+                else
+                {
+                    if (user.MembershipExpirationDate > DateTime.Now)
+                    {
+                        if (user.IsActive != false)
+                            return new SuccessResult("Kullanıcı doğrulandı!");
+                        else
+                            return new ErrorResult("Üyeliğiniz kısıtlanmış veya süresi dolmuş!");
+                    }
+                    else
+                        return new ErrorResult("Üyeliğinizin süresi dolmuş!");
+                }   
+            }
+            return new ErrorResult("Kullanıcı adı veya şifre yanlış!");
+        }
     }
 }

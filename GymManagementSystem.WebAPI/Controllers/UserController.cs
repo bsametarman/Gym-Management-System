@@ -65,5 +65,14 @@ namespace GymManagementSystem.WebAPI.Controllers
                 return Ok(new SuccessResult(result.Message));
             return BadRequest(result.Message);
         }
+
+        [HttpPost("checkUserStatus")]
+        public IActionResult CheckUserStatus(string username, string password)
+        {
+            var result = userService.CheckUserStatus(username, password);
+            if(result.Success)
+                return Ok(new SuccessResult(result.Message));
+            return BadRequest(result);
+        }
     }
 }
