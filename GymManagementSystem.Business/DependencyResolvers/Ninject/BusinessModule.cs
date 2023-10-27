@@ -25,6 +25,8 @@ namespace GymManagementSystem.Business.DependencyResolvers.Ninject
             Bind<IBranchLogService>().To<BranchLogManager>().InSingletonScope();
             Bind<IBranchLogDal>().To<EfBranchLogDal>().InSingletonScope();
 
+            Bind<IEnterLogService>().To<EnterLogManager>().InSingletonScope();
+            Bind<IEnterLogDal>().To<EfEnterLogDal>().InSingletonScope();
         }
     }
 }
