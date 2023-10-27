@@ -3,6 +3,7 @@ using GymManagementSystem.Core.Utilities.Results;
 using GymManagementSystem.DataAccess.Abstract;
 using GymManagementSystem.DataAccess.Concrete;
 using GymManagementSystem.Entities.Concrete;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace GymManagementSystem.Business.Concrete
 {
-    internal class BranchManager : IBranchService
+    public class BranchManager : IBranchService
     {
         private IBranchDal _branchDal;
         public BranchManager(IBranchDal branchDal)
@@ -24,6 +25,8 @@ namespace GymManagementSystem.Business.Concrete
             _branchDal.Add(branch);
             return new SuccessResult("Başarıyla eklendi !!!");
         }
+
+    
 
         public IResult Delete(Branch branch)
         {
@@ -50,6 +53,8 @@ namespace GymManagementSystem.Business.Concrete
         {
             return new SuccessDataResult<Branch>(_branchDal.Get(u => u.Id == id), "Başarıyla listelendi !!!");
         }
+
+       
 
         public IResult Update(Branch branch)
         {

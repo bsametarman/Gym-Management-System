@@ -22,7 +22,7 @@ namespace GymManagementSystem.DataAccess.Concrete
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source = localhost\SQLEXPRESS; Initial Catalog = GymManagementSystemDb; Integrated Security = true; Trust Server Certificate=true; Connection Timeout=3600;");
+            optionsBuilder.UseSqlServer(@"Data Source = LAPTOP-MBSERMR3\SQLEXPRESS01; Initial Catalog = GymManagementSystemDb; Integrated Security = true; Trust Server Certificate=true; Connection Timeout=3600;");
         }
 
         public DbSet<AppUser> AspNetUsers { get; set; }

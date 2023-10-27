@@ -106,7 +106,8 @@ namespace GymManagementSystem.Business.Concrete
             
             if(user != null)
             {
-                if ((DateTime.Now - user.MembershipExpirationDate).Days > 3)
+                if ((DateTime.Now - user.MembershipExpirationDate).Days > 3) // eğer ki üye, üyelik dönemini uzatmazsa 
+                                                                             // 3 gün içersinde üyelik statüsü pasif edilir
                 {
                     user.IsActive = false;
                     _userDal.Update(user);

@@ -4180,19 +4180,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\bsame\\.nuget\\packages\\": {}
+    "C:\\Users\\User\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\bsame\\Desktop\\Projeler vs\\C#\\GymManagementSystem\\GymManagementSystem.Business\\GymManagementSystem.Business.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Desktop\\asp_gym\\Gym-Management-System\\GymManagementSystem.Business\\GymManagementSystem.Business.csproj",
       "projectName": "GymManagementSystem.Business",
-      "projectPath": "C:\\Users\\bsame\\Desktop\\Projeler vs\\C#\\GymManagementSystem\\GymManagementSystem.Business\\GymManagementSystem.Business.csproj",
-      "packagesPath": "C:\\Users\\bsame\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\bsame\\Desktop\\Projeler vs\\C#\\GymManagementSystem\\GymManagementSystem.Business\\obj\\",
+      "projectPath": "C:\\Users\\User\\Desktop\\asp_gym\\Gym-Management-System\\GymManagementSystem.Business\\GymManagementSystem.Business.csproj",
+      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\User\\Desktop\\asp_gym\\Gym-Management-System\\GymManagementSystem.Business\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\bsame\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4206,14 +4206,14 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\bsame\\Desktop\\Projeler vs\\C#\\GymManagementSystem\\GymManagementSystem.Core\\GymManagementSystem.Core.csproj": {
-              "projectPath": "C:\\Users\\bsame\\Desktop\\Projeler vs\\C#\\GymManagementSystem\\GymManagementSystem.Core\\GymManagementSystem.Core.csproj"
+            "C:\\Users\\User\\Desktop\\asp_gym\\Gym-Management-System\\GymManagementSystem.Core\\GymManagementSystem.Core.csproj": {
+              "projectPath": "C:\\Users\\User\\Desktop\\asp_gym\\Gym-Management-System\\GymManagementSystem.Core\\GymManagementSystem.Core.csproj"
             },
-            "C:\\Users\\bsame\\Desktop\\Projeler vs\\C#\\GymManagementSystem\\GymManagementSystem.DataAccess\\GymManagementSystem.DataAccess.csproj": {
-              "projectPath": "C:\\Users\\bsame\\Desktop\\Projeler vs\\C#\\GymManagementSystem\\GymManagementSystem.DataAccess\\GymManagementSystem.DataAccess.csproj"
+            "C:\\Users\\User\\Desktop\\asp_gym\\Gym-Management-System\\GymManagementSystem.DataAccess\\GymManagementSystem.DataAccess.csproj": {
+              "projectPath": "C:\\Users\\User\\Desktop\\asp_gym\\Gym-Management-System\\GymManagementSystem.DataAccess\\GymManagementSystem.DataAccess.csproj"
             },
-            "C:\\Users\\bsame\\Desktop\\Projeler vs\\C#\\GymManagementSystem\\GymManagementSystem.Entities\\GymManagementSystem.Entities.csproj": {
-              "projectPath": "C:\\Users\\bsame\\Desktop\\Projeler vs\\C#\\GymManagementSystem\\GymManagementSystem.Entities\\GymManagementSystem.Entities.csproj"
+            "C:\\Users\\User\\Desktop\\asp_gym\\Gym-Management-System\\GymManagementSystem.Entities\\GymManagementSystem.Entities.csproj": {
+              "projectPath": "C:\\Users\\User\\Desktop\\asp_gym\\Gym-Management-System\\GymManagementSystem.Entities\\GymManagementSystem.Entities.csproj"
             }
           }
         }
@@ -4249,7 +4249,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

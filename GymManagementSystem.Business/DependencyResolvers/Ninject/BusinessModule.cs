@@ -22,6 +22,9 @@ namespace GymManagementSystem.Business.DependencyResolvers.Ninject
             Bind<IUserService>().To<UserManager>().InSingletonScope();
             Bind<IUserDal>().To<EfUserDal>().InSingletonScope();
 
+            Bind<IBranchService>().To<BranchManager>().InSingletonScope();
+            Bind<IBranchDal>().To<EfBranchDal>().InSingletonScope();
+
         }
     }
 }

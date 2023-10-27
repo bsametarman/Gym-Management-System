@@ -10,5 +10,6 @@ namespace GymManagementSystem.Core.Utilities.Results
     {
         bool Success { get; }
         string Message { get; }
+        
     }
 }
