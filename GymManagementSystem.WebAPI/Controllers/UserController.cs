@@ -66,7 +66,7 @@ namespace GymManagementSystem.WebAPI.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpPost("checkUserStatus")]
+        [HttpGet("checkUserStatus")]
         public IActionResult CheckUserStatus(string username, string password)
         {
             var result = userService.CheckUserStatus(username, password);
