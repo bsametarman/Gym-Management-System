@@ -33,6 +33,9 @@ namespace GymManagementSystem.Business.DependencyResolvers.Ninject
 
             Bind<IPaymentStatusService>().To<PaymentStatusManager>().InSingletonScope();
             Bind<IPaymentStatusDal>().To<EfPaymentStatusDal>().InSingletonScope();
+
+            Bind<IMembershipService>().To<MembershipManager>().InSingletonScope();
+            Bind<IMembershipDal>().To<EfMembershipDal>().InSingletonScope();
         }
     }
 }
