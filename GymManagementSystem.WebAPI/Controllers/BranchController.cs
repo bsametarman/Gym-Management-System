@@ -16,7 +16,7 @@ namespace GymManagementSystem.WebAPI.Controllers
 
 
 
-        [HttpGet("getAllUsers")]
+        [HttpGet("getAllBranches")]
         public IActionResult GetAll()
         {
             var result = branchService.GetAll();
@@ -34,7 +34,7 @@ namespace GymManagementSystem.WebAPI.Controllers
             return NotFound(new ErrorDataResult<Branch> (result.Data, result.Message));
         }
 
-        [HttpPost("addUser")]
+        [HttpPost("addBranch")]
         public IActionResult Add(Branch branch)
         {
             var result = branchService.Add(branch);
@@ -43,7 +43,7 @@ namespace GymManagementSystem.WebAPI.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpDelete("deleteUser")]
+        [HttpDelete("deleteBranch")]
         public IActionResult Delete(Branch branch)
         {
             var result = branchService.Delete(branch);
@@ -52,7 +52,7 @@ namespace GymManagementSystem.WebAPI.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpPost("updateUser")]
+        [HttpPost("updateBranch")]
         public IActionResult Update(Branch branch)
         {
             var result = branchService.Update(branch);
