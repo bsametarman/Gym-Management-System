@@ -30,6 +30,9 @@ namespace GymManagementSystem.Business.DependencyResolvers.Ninject
 
             Bind<IBranchService>().To<BranchManager>().InSingletonScope();
             Bind<IBranchDal>().To<EfBranchDal>().InSingletonScope();
+
+            Bind<IPaymentStatusService>().To<PaymentStatusManager>().InSingletonScope();
+            Bind<IPaymentStatusDal>().To<EfPaymentStatusDal>().InSingletonScope();
         }
     }
 }
