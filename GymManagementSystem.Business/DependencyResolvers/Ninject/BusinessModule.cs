@@ -36,6 +36,9 @@ namespace GymManagementSystem.Business.DependencyResolvers.Ninject
 
             Bind<IMembershipService>().To<MembershipManager>().InSingletonScope();
             Bind<IMembershipDal>().To<EfMembershipDal>().InSingletonScope();
+
+            Bind<IBloodTypeService>().To<BloodTypeManager>().InSingletonScope();
+            Bind<IBloodTypeDal>().To<EfBloodTypeDal>().InSingletonScope();
         }
     }
 }
