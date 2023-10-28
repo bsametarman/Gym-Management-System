@@ -42,6 +42,9 @@ namespace GymManagementSystem.Business.DependencyResolvers.Ninject
 
             Bind<IPaymentLogService>().To<PaymentLogManager>().InSingletonScope();
             Bind<IPaymentLogDal>().To<EfPaymentLogDal>().InSingletonScope();
+
+            Bind<ITrainerService>().To<TrainerManager>().InSingletonScope();
+            Bind<ITrainerDal>().To<EfTrainerDal>().InSingletonScope();
         }
     }
 }
