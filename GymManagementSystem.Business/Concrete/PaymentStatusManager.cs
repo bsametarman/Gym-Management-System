@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GymManagementSystem.Business.Concrete
 {
-    public class PaymentStatusManager : IPaymentStatus
+    public class PaymentStatusManager : IPaymentStatusService
     {
         private IPaymentStatusDal _paymentStatusDal;
 

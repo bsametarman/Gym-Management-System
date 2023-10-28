@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GymManagementSystem.Business.Abstract
 {
-    public interface IPaymentStatus
+    public interface IPaymentStatusService
     {
         IDataResult<List<PaymentStatus>> GetAll();
         IDataResult<PaymentStatus> GetById(int id);
