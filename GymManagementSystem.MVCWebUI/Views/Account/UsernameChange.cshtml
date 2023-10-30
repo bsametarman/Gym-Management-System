@@ -1,0 +1,44 @@
+﻿@model UserUsernameChangeViewModel
+@{
+}
+<html lang="en">
+    <head>
+        <style>
+            .myForm {
+                min-width: 500px;
+                position: absolute;
+                text-align: center;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 2.5rem
+            }
+
+        </style>
+    </head>
+
+<body class="text-center">
+    <form method="post" asp-action="UserUsernameChange" class="col-lg-6 offset-lg-3">
+        <div class="row justify-content-center" style="margin: 10% 0 0 0">
+
+
+            <div class="h3 mb-3 font-weight-normal" style="text-align: center; margin-bottom: 5%">
+                <h1>Change Username</h1>
+            </div>
+
+            <div style="margin-bottom: 5%; margin-top: 2%">
+                <label asp-for="Id" class="sr-only">Id</label>
+                <input asp-for="Id" class="form-control" placeholder="@ViewBag.Id" value="@ViewBag.Id" readonly>
+            </div>
+
+            <div style="margin-bottom: 5%; margin-top: 2%">
+                <label asp-for="Username" class="sr-only">Username</label>
+                <input asp-for="Username" class="form-control" placeholder="">
+            </div>
+
+            <button class="btn btn-lg btn-outline-success btn-block" style="margin-top: 5%" type="submit">Change Username</button>
+            <p class="mt-5 mb-3 text-muted"></p>
+        </div>
+    </form>
+    </body>
+</html>

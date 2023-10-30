@@ -1,0 +1,18 @@
+﻿@model UserSignInViewModel
+
+@{
+}
+
+<body>
+    <form method="post" asp-action="SignIn" style="margin: 5% 30% 5% 30%">
+        <h1 class="h3 mb-3 font-weight-normal text-center">Sign In</h1>
+        <label asp-for="Username" class="sr-only" style="margin: 3% 0 3% 0">Username</label>
+        <input asp-for="Username" id="inputUsername" style="margin-bottom: 5%" class="form-control" placeholder="Username" required autofocus>
+        <label asp-for="Password" style="margin-bottom: 3%" class="sr-only">Password</label>
+        <input asp-for="Password" type="password" style="margin-bottom: 5%" id="inputPassword" class="form-control" placeholder="Password" required>
+        
+        <div class="text-center">
+            <button class="btn btn-lg btn-primary btn-block " style="margin-bottom: 5%" type="submit">Sign in</button>
+        </div>
+    </form>
+</body>
