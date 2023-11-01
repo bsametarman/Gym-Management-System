@@ -397,8 +397,5 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-.vs/GymManagementSystem/v17/.suo
-GymManagementSystem.Business/obj/
-GymManagementSystem.Core/obj/
-GymManagementSystem.DataAccess/obj/
-GymManagementSystem.Entities/obj/
+
+
