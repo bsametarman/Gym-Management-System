@@ -86,6 +86,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             {
                 Name = userCredentials.Name,
                 Surname = userCredentials.Surname,
+                NormalizedUserName = userCredentials.Username,
                 IdentityNumber = userCredentials.IdentityNumber,
                 Email = userCredentials.Email,
                 Password = userCredentials.Password,
@@ -101,9 +102,9 @@ namespace GymManagementSystem.MVCWebUI.Controllers
                 Address = userCredentials.Address,
                 EmergencyPhoneNumber = userCredentials.EmergencyPhoneNumber,
                 EmailConfirmed = true,
-                UserRole = "member"
+                UserRole = "member",
             };
-
+            user.UserName = userCredentials.Username;
             var result = await _userManager.CreateAsync(user, userCredentials.Password);
 
             if (result.Succeeded)
@@ -121,9 +122,9 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             return View(userCredentials);
         }
 
-        public IActionResult EmailChange()
+        public IActionResult EmailChange(string id)
         {
-            ViewBag.Id = _userManager.GetUserId(User);
+            ViewBag.id = id;
             return View();
         }
 
@@ -137,12 +138,12 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             user.Email = newEmail;
             await _userManager.UpdateAsync(user);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Dashboard");
         }
 
-        public IActionResult PasswordChange()
+        public IActionResult PasswordChange(string id)
         {
-            ViewBag.Id = _userManager.GetUserId(User);
+            ViewBag.id = id;
             return View();
         }
 
@@ -157,12 +158,12 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, password);
             await _userManager.UpdateAsync(user);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Dashboard");
         }
 
-        public IActionResult UsernameChange()
+        public IActionResult UsernameChange(string id)
         {
-            ViewBag.Id = _userManager.GetUserId(User);
+            ViewBag.id = id;
             return View();
         }
 
@@ -176,7 +177,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             user.UserName = username;
             await _userManager.UpdateAsync(user);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Dashboard");
         }
 
         public async Task<IActionResult> EditActiveState(string id)
@@ -197,7 +198,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             }
 
             await _userManager.UpdateAsync(user);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Dashboard");
         }
 
         public async Task<IActionResult> DeleteUser(string id)
@@ -212,12 +213,58 @@ namespace GymManagementSystem.MVCWebUI.Controllers
                 }
 
                 await _userManager.DeleteAsync(user);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Dashboard");
             }
             else
             {
                 return RedirectToAction("Index", "Home");
             }
+        }
+
+        public IActionResult RoleChange(string id)
+        {
+            ViewBag.Id = id;
+            return View();
+        }
+
+        public async Task<IActionResult> UserRoleChange(string id, string role)
+        {
+            List<string> roles = new List<string>() { "member", "employee", "manager", "owner" };
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+                return View(id);
+
+            foreach (var roleitem in roles)
+            {
+                await _userManager.RemoveFromRoleAsync(user, roleitem);
+            }
+
+            user.UserRole = role;
+            await _userManager.AddToRoleAsync(user, role);
+            await _userManager.UpdateAsync(user);
+
+            return RedirectToAction("Index", "Dashboard");
+        }
+
+        public IActionResult ExtendTime(string id)
+        {
+            ViewBag.Id = id;
+            return View();
+        }
+
+        public async Task<IActionResult> UserExtendTime(string id, int dayToExtend)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+                return View(id);
+
+            user.LastPaymentDate = user.LastPaymentDate.AddDays(dayToExtend);
+            user.MembershipExpirationDate = user.MembershipExpirationDate.AddDays(dayToExtend);
+            await _userManager.UpdateAsync(user);
+
+            return RedirectToAction("Index", "Dashboard");
         }
 
         public async Task<IActionResult> LogOut()
