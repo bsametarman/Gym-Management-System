@@ -1,0 +1,137 @@
+﻿@model List<GymManagementSystem.Entities.Concrete.AppUser>
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+@if (User.IsInRole("member"))
+{
+    <h1 class="text-center">Dashboard</h1>
+    <br />
+    <div class="card mb-3 text-center fs-5">
+        <div class="card-header">
+            <strong>@ViewBag.Name @ViewBag.Surname </strong> <br>
+        </div>
+        <div class="card-body">
+            <div class="card-title">
+                <strong>Username: </strong> @ViewBag.Username<br>
+                <strong>Identity Number: </strong> @ViewBag.IdentityNumber <br>
+                <strong>Address: </strong> @ViewBag.Address <br>
+                <strong>Email: </strong> @ViewBag.Email <br>
+                <strong>Phone Number: </strong> @ViewBag.PhoneNumber <br>
+                <strong>Emergency Phone Number: </strong> @ViewBag.EmergencyPhoneNumber <br>
+                <strong>Blood Type: </strong> @ViewBag.BloodTypeId <br>
+                <strong>Year Of Birth: </strong> @ViewBag.YearOfBirth <br>
+                <strong>Enter Count: </strong> @ViewBag.EnterCount <br>
+                <strong>Trainer: </strong> @ViewBag.TrainerId <br>
+                <strong>Created Date: </strong> @ViewBag.CreatedDate <br>
+                <strong>Expiration Date: </strong> @ViewBag.MembershipExpirationDate <br>
+                @if ((ViewBag.MembershipExpirationDate.Subtract(DateTime.Now).Days + 3) <= 3)
+                {
+                            <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> @(ViewBag.MembershipExpirationDate.Subtract(DateTime.Now).Days + 3) </a> <br>
+                }
+                else
+                {
+                            <strong>Left Days: </strong> <a style="background-color: green; color: white"> @(ViewBag.MembershipExpirationDate.Subtract(DateTime.Now).Days + 3) </a> <br>
+                }
+                <div>(We are added extra 3 days to your days.)</div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (User.IsInRole("owner") || User.IsInRole("employee") || User.IsInRole("manager"))
+{
+    <h1 class="text-center">Dashboard</h1>
+    <div class="fs-5">
+        Welcome! <strong> @ViewBag.Name @ViewBag.Surname </strong> <br>
+    </div>
+    <br />
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        @if (i % 4 == 0)
+        {
+            if (i > 0)
+            {
+                @:</div>
+            }
+            @:<div class="row">
+        }
+        <div class="col-md-6">
+            <div class="card mb-3 fs-6">
+                <div class="card-header">
+                    <strong>@Model[i].Name @Model[i].Surname </strong> <br>
+                    User Id: @Model[i].Id
+                </div>
+                <div class="card-body">
+                    <div class="card-title">
+                        <strong>Name: </strong> @Model[i].Name <strong>Surname: </strong> @Model[i].Surname <br>
+                        <strong>Username: </strong> @Model[i].UserName <br>
+                        @if (User.IsInRole("owner"))
+                        {
+                            <strong> Password: </strong> @Model[i].Password <br>
+                        }
+                        <strong>Email: </strong> @Model[i].Email <br>
+                        <strong>Address: </strong> @Model[i].Address <br>
+                        <strong>Identity Number: </strong> @Model[i].IdentityNumber <br>
+                        <strong>Gender: </strong> @Model[i].Gender <br>
+                        <strong>Phone Number: </strong> @Model[i].PhoneNumber <br>
+                        <strong>Emergency Phone Number: </strong> @Model[i].EmergencyPhoneNumber <br>
+                        <strong>Blood Type: </strong> @Model[i].BloodTypeId <br>
+                        <strong>Membership Type: </strong> @Model[i].MembershipTypeId <br>
+                        <strong>Trainer: </strong> @Model[i].TrainerId <br>
+                        <strong>Enter Count: </strong> @Model[i].EnterCount <br>
+                        <strong>Year Of Birth: </strong> @Model[i].YearOfBirth <br>
+                        <strong>Role: </strong> @Model[i].UserRole <br>
+                        <strong>Created Date: </strong> @Model[i].CreatedDate <br>
+                        <strong>Expiration Date: </strong> @Model[i].MembershipExpirationDate <br>
+                        @if ((Model[i].MembershipExpirationDate.Subtract(DateTime.Now).Days + 3) <= 3)
+                        {
+                            <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> @(Model[i].MembershipExpirationDate.Subtract(DateTime.Now).Days + 3) </a> <br>
+                        }
+                        else
+                        {
+                            <strong>Left Days: </strong> <a style="background-color: green; color: white"> @(Model[i].MembershipExpirationDate.Subtract(DateTime.Now).Days + 3) </a> <br>
+                        }
+                        <div>We are added extra 3 days to your days.</div>
+                        @if (Model[i].IsActive == true)
+                        {
+                            <strong>Active State: </strong> <a style="color: green; font-size: 20px">@Model[i].IsActive </a>
+                        }
+                        else
+                        {
+                            <strong>Active State: </strong> <a style="color: red; font-size: 20px">@Model[i].IsActive </a>
+                        }
+                    </div>
+                </div>
+                @if (User.IsInRole("owner") || User.IsInRole("employee") || User.IsInRole("manager"))
+                {
+                    <div class="card-footer text-center">
+                        <a asp-route-id="@Model[i].Id" asp-controller="Account" asp-action="EditActiveState" class="btn btn-outline-warning btn-lg m-1">Active State</a>
+                        @if(User.IsInRole("owner") || User.IsInRole("manager"))
+                        {
+                            <a asp-route-id="@Model[i].Id" asp-controller="Account" asp-action="DeleteUser" class="btn btn-outline-danger btn-lg m-1">Delete</a>   
+                        }
+                        <a asp-route-id="@Model[i].Id" asp-controller="Account" asp-action="ExtendTime" class="btn btn-outline-success btn-lg m-1">Extend Time</a>
+                        <a asp-route-id="@Model[i].Id" asp-controller="Account" asp-action="UsernameChange" class="btn btn-outline-primary btn-lg m-1">Change Username</a>
+                        <a asp-route-id="@Model[i].Id" asp-controller="Account" asp-action="PasswordChange" class="btn btn-outline-primary btn-lg m-1">Change Password</a>
+                        <a asp-route-id="@Model[i].Id" asp-controller="Account" asp-action="EmailChange" class="btn btn-outline-secondary btn-lg m-1">Change Email</a>
+                        @if (User.IsInRole("owner"))
+                        {
+                            <a asp-route-id="@Model[i].Id" asp-controller="Account" asp-action="RoleChange" class="btn btn-outline-info btn-lg m-1">Change Role</a>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    @if (Model.Count > 0)
+    {
+        @:</div>
+    }
+}
+
+@if(!User.Identity.IsAuthenticated){
+    <div class="text-center">
+        <strong>You must logged in to see that page.</strong>
+    </div>
+}

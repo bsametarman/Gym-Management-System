@@ -1,5 +1,6 @@
 ﻿@model UserRegisterViewModel
 @{
+	ViewBag.Title = "Sign Up";
 }
 
 <div class="container">
@@ -27,62 +28,69 @@
 							Valid last name is required.
 						</div>
 					</div>
-				</div>
-				<div class="mb-3">
-					<label asp-for="Email">Email<span class="text-muted"></span></label>
-					<input asp-for="Email" class="form-control">
-				</div>
-				<div class="mb-3">
-					<label asp-for="Password">Password</label>
-					<div class="input-group">
-						<input asp-for="Password" class="form-control" required>
-						<div class="invalid-feedback" style="width: 100%;">
-							Your username is required.
+					<div class="col-md-6 mb-3">
+						<label asp-for="Username">Username</label>
+						<input asp-for="Username" class="form-control" value="" required>
+						<div class="invalid-feedback">
+							Valid last name is required.
 						</div>
 					</div>
-				</div>
-
-				<div class="mb-3">
-					<label asp-for="IdentityNumber">Identity Number<span class="text-muted"></span></label>
-					<input asp-for="IdentityNumber" class="form-control">
-					<div class="invalid-feedback">
-						Please enter a valid email address for shipping updates.
+					<div class="col-md-6 mb-3">
+						<label asp-for="Email">Email<span class="text-muted"></span></label>
+						<input asp-for="Email" class="form-control">
 					</div>
 				</div>
-
-				<div class="col-md-5 mb-3">
-					<label asp-for="Gender">Gender</label>
-					<select asp-for="Gender" class="custom-select d-block w-100" required>
-						<option value="">Choose</option>
-						<option>Male</option>
-						<option>Female</option>
-						<option>-</option>
-					</select>
-					<div class="invalid-feedback">
-						Please select a valid country.
-					</div>
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label asp-for="Password">Password</label>
+						<div class="input-group">
+							<input asp-for="Password" class="form-control" required>
+							<div class="invalid-feedback" style="width: 100%;">
+								Your username is required.
+							</div>
+						</div>
 					</div>
 
-				<div class="mb-3">
-					<label asp-for="YearOfBirth">Birth Year<span class="text-muted"></span></label>
-					<input asp-for="YearOfBirth" class="form-control">
-				</div>
+					<div class="col-md-6 mb-3">
+						<label asp-for="IdentityNumber">Identity Number<span class="text-muted"></span></label>
+						<input asp-for="IdentityNumber" class="form-control">
+						<div class="invalid-feedback">
+							Please enter a valid email address for shipping updates.
+						</div>
+					</div>
 
-				<div class="mb-3">
-					<label asp-for="PhoneNumber">Phone Number<span class="text-muted"></span></label>
-					<input asp-for="PhoneNumber" class="form-control">
-				</div>
+					<div class="col-md-6 mb-3">
+						<label asp-for="Gender">Gender</label>
+						<select asp-for="Gender" class="custom-select d-block w-100" required>
+							<option value="">Choose</option>
+							<option>Male</option>
+							<option>Female</option>
+							<option>-</option>
+						</select>
+						<div class="invalid-feedback">
+							Please select a valid country.
+						</div>
+						</div>
 
-				<div class="mb-3">
-					<label asp-for="Address">Address<span class="text-muted"></span></label>
-					<input asp-for="Address" class="form-control">
+					<div class="col-md-6 mb-3">
+						<label asp-for="YearOfBirth">Birth Year<span class="text-muted"></span></label>
+						<input asp-for="YearOfBirth" class="form-control">
+					</div>
 				</div>
-
-				<div class="mb-3">
-					<label asp-for="EmergencyPhoneNumber">Emergency Phone Number<span class="text-muted"></span></label>
-					<input asp-for="EmergencyPhoneNumber" class="form-control">
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label asp-for="PhoneNumber">Phone Number<span class="text-muted"></span></label>
+						<input asp-for="PhoneNumber" class="form-control">
+					</div>
+					<div class="col-md-6 mb-3">
+						<label asp-for="EmergencyPhoneNumber">Emergency Phone Number<span class="text-muted"></span></label>
+						<input asp-for="EmergencyPhoneNumber" class="form-control">
+					</div>
 				</div>
-
+				<div class="mb-3">
+						<label asp-for="Address">Address<span class="text-muted"></span></label>
+						<input asp-for="Address" class="form-control">
+					</div>
 				<div class="d-flex justify-content-center">
 				<button class="btn btn-outline-success btn-lg btn-block" style="width: 250px; height: 75px" type="submit">Sign Up</button>
 				</div>

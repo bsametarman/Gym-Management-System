@@ -1,0 +1,69 @@
+﻿@model UserRoleChangeViewModel
+@{
+    ViewBag.Title = "Role Change";
+}
+@if (User.IsInRole("owner") || User.IsInRole("manager"))
+{
+    <html lang="en">
+        <head>
+            <style>
+                .myForm {
+                    min-width: 500px;
+                    position: absolute;
+                    text-align: center;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    font-size: 2.5rem
+                }
+
+            </style>
+        </head>
+
+    <body class="text-center">
+        <form method="post" asp-action="UserRoleChange" class="col-lg-6 offset-lg-3">
+            <div class="row justify-content-center" style="margin: 10% 0 0 0">
+
+
+                <div class="h3 mb-3 font-weight-normal" style="text-align: center; margin-bottom: 5%">
+                    <h1>Change Role</h1>
+                </div>
+
+                <div style="margin-bottom: 5%; margin-top: 2%">
+                    <label asp-for="Id" class="sr-only">Id</label>
+                    <input asp-for="Id" class="form-control" placeholder="" readonly>
+                </div>
+                
+                <div class="col-md-5 mb-3" style="margin-top: 2%">
+                    <label asp-for="Role">Choose new role</label>
+                    <select asp-for="Role" class="form-select" id="floatingSelect" required>
+                        @if (User.IsInRole("owner"))
+                        {
+                            <option value="member">Member</option>
+                            <option value="employee">Employee</option>
+                            <option value="manager">Manager</option>
+                            <option value="owner">Owner</option>
+                        }
+                        else if (User.IsInRole("manager"))
+                        {
+                            <option value="member">Member</option>
+                            <option value="employee">Employee</option>
+                            <option value="manager">Manager</option>
+                        }
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a valid role.
+                    </div>
+                </div>
+
+                <button class="btn btn-lg btn-outline-success btn-block" style="margin-top: 5%" type="submit">Change Role</button>
+                <p class="mt-5 mb-3 text-muted"></p>
+            </div>
+        </form>
+        </body>
+    </html>
+}
+else
+{
+    <h1>You are NOT Authorized!</h1>
+}

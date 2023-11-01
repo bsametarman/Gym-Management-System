@@ -1,0 +1,50 @@
+﻿@model UserExtendTimeViewModel
+@{
+    ViewBag.Title = "Extend Time";
+}
+@if (User.IsInRole("owner") || User.IsInRole("manager") || User.IsInRole("employee"))
+{
+    <html lang="en">
+        <head>
+            <style>
+                .myForm {
+                    min-width: 500px;
+                    position: absolute;
+                    text-align: center;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    font-size: 2.5rem
+                }
+
+            </style>
+        </head>
+
+    <body class="text-center">
+        <form method="post" asp-action="UserExtendTime" class="col-lg-6 offset-lg-3">
+            <div class="row justify-content-center" style="margin: 10% 0 0 0">
+
+                <div class="h3 mb-3 font-weight-normal" style="text-align: center; margin-bottom: 5%">
+                    <h1>Extend Time</h1>
+                </div>
+
+                <div style="margin-bottom: 5%; margin-top: 2%">
+                    <label asp-for="Id" class="sr-only">Id</label>
+                    <input asp-for="Id" class="form-control" placeholder="" readonly>
+                </div>
+                <div style="margin-bottom: 10%">
+                    <label asp-for="DayToExtend" class="sr-only">Day to extend</label>
+                    <input asp-for="DayToExtend" class="form-control" style="margin-bottom: 10px" placeholder="" required>
+                </div>
+
+                <button class="btn btn-lg btn-outline-success btn-block" type="submit">Extend Time</button>
+                <p class="mt-5 mb-3 text-muted"></p>
+            </div>
+        </form>
+        </body>
+    </html>
+}
+else
+{
+    <h1>You are NOT Authorized!</h1>
+}
