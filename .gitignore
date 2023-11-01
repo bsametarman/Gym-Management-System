@@ -397,12 +397,8 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-# Derleme sonucu oluşan dosyalar
-build/
-dist/
-
-# Geçici dosyalar
-*.tmp
-
-# Log dosyaları
-*.log
+.vs/GymManagementSystem/v17/.suo
+GymManagementSystem.Business/obj/
+GymManagementSystem.Core/obj/
+GymManagementSystem.DataAccess/obj/
+GymManagementSystem.Entities/obj/
