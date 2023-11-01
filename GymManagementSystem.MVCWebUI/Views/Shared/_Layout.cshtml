@@ -24,6 +24,24 @@
                         </li>
                     </ul>
                 </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div style="margin-right: 1%">
+                        <a asp-area="" asp-controller="Dashboard" asp-action="Index" class="btn btn-outline-warning btn-lg">Dashboard</a>
+                    </div>
+                    <div style="margin-right: 3%">
+                        <a asp-area="" asp-controller="Account" asp-action="LogOut" class="btn btn-outline-danger btn-lg">Logout</a>
+                    </div>
+                }
+                else
+                {
+                    <div style="margin-right: 1%">
+                        <a asp-area="" asp-controller="Account" asp-action="SignIn" class="btn btn-outline-success btn-lg">Sign In</a>
+                    </div>
+                    <div style="margin-right: 3%">
+                        <a asp-area="" asp-controller="Account" asp-action="SignUp" class="btn btn-outline-success btn-lg">Sign Up</a>
+                    </div>
+                }
             </div>
         </nav>
     </header>
