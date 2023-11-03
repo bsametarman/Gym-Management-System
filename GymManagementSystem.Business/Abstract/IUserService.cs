@@ -15,7 +15,7 @@ namespace GymManagementSystem.Business.Abstract
         IDataResult<AppUser> GetById(string id);
         IResult CheckUserStatus(string username, string password);
         IResult GetByEmailAndPassword(string email, string password);
-        Task<IResult> Add(AppUser user, UserManager<AppUser> userManager);
+        Task<IDataResult<IdentityResult>> Add(AppUser user, UserManager<AppUser> userManager);
         IResult Update(AppUser user);
         IResult Delete(AppUser user);
     }

@@ -23,7 +23,7 @@ namespace GymManagementSystem.Business.Concrete
             //_userManager = userManager;
         }
 
-        public async Task<IResult> Add(AppUser user, UserManager<AppUser> _userManager)
+        public async Task<IDataResult<IdentityResult>> Add(AppUser user, UserManager<AppUser> _userManager)
         {
             var findUser = _userManager.FindByNameAsync(user.UserName);
 
@@ -55,11 +55,13 @@ namespace GymManagementSystem.Business.Concrete
                     UserRole = userRoleToAssign,
                     IsActive = true
                 };
-                var result = await _userManager.CreateAsync(user, user.Password);
+                var result = await _userManager.CreateAsync(addUser, addUser.Password);
                 if(result.Succeeded)
-                    return new SuccessResult("Başarıyla eklendi !!!");
+                    return new SuccessDataResult<IdentityResult>(result, "Başarıyla eklendi !!!");
+                else
+                    return new ErrorDataResult<IdentityResult>(result, "Bir sorun oluştu !");
             }
-            return new ErrorResult("Bir sorun oluştu !");
+            return new ErrorDataResult<IdentityResult>("Bir sorun oluştu !");
             //_userDal.Add(user);
             //return new SuccessResult("Başarıyla eklendi !!!");
         }
