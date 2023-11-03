@@ -74,8 +74,8 @@ namespace GymManagementSystem.MVCWebUI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SignUp(UserRegisterViewModel userCredentials)
         {
-            if (!ModelState.IsValid)
-                return View(userCredentials);
+            //if (!ModelState.IsValid)
+            //    return View(userCredentials);
 
             var findUser = await _userManager.FindByEmailAsync(userCredentials.Email);
 
@@ -114,10 +114,14 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             }
             else
             {
+                List<string> errors = new List<string>();
+
                 foreach (var item in result.Errors)
                 {
-                    ModelState.AddModelError("", item.Description);
+                    //ModelState.AddModelError("", item.Description);
+                    errors.Add(item.Description);
                 }
+                ViewBag.Errors = errors;
             }
             return View(userCredentials);
         }
