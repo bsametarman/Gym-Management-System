@@ -43,9 +43,9 @@ namespace GymManagementSystem.WebAPI.Controllers
         public IActionResult Add(AppUser user)
         {
             var result = userService.Add(user, _userManager);
-            if (result.Result != null)
+            if (result.Result.Success)
                 return Ok(new SuccessResult("Başarıyla eklendi !"));
-            return BadRequest(result.Result.Message);
+            return BadRequest(new ErrorDataResult<IdentityResult>(result.Result.Data, "Bir sorun oluştu!"));
         }
 
         [HttpDelete("deleteUser")]

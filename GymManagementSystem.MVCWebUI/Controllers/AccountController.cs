@@ -1,5 +1,8 @@
-﻿using GymManagementSystem.Entities.Concrete;
+﻿using GymManagementSystem.Business.Abstract;
+using GymManagementSystem.Core.Utilities.Results;
+using GymManagementSystem.Entities.Concrete;
 using GymManagementSystem.MVCWebUI.Models;
+using GymManagementSystem.MVCWebUI.Tools.Validation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +14,13 @@ namespace GymManagementSystem.MVCWebUI.Controllers
     {
         private UserManager<AppUser> _userManager;
         private SignInManager<AppUser> _signInManager;
+        private IUserService _userService;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IUserService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userService = userService;
         }
 
         [AllowAnonymous]
@@ -74,8 +79,8 @@ namespace GymManagementSystem.MVCWebUI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SignUp(UserRegisterViewModel userCredentials)
         {
-            if (!ModelState.IsValid)
-                return View(userCredentials);
+            //if (!ModelState.IsValid)
+            //    return View(userCredentials);
 
             var findUser = await _userManager.FindByEmailAsync(userCredentials.Email);
 
@@ -105,18 +110,53 @@ namespace GymManagementSystem.MVCWebUI.Controllers
                 UserRole = "member",
             };
             user.UserName = userCredentials.Username;
-            var result = await _userManager.CreateAsync(user, userCredentials.Password);
 
-            if (result.Succeeded)
+            // Validation
+            UserValidator validator = new UserValidator(_userService);
+
+            List<List<IdentityError>> validationResults = new List<List<IdentityError>>();
+
+            validationResults.Add(validator.CheckName(user.Name));
+            validationResults.Add(validator.CheckSurname(user.Surname));
+            validationResults.Add(validator.CheckUsername(user.UserName));
+            validationResults.Add(validator.CheckPassword(user.Password));
+            validationResults.Add(validator.CheckEmail(user.Email));
+            validationResults.Add(validator.CheckYearOfBirth(user.YearOfBirth));
+            validationResults.Add(validator.CheckIdentityNumber(user.IdentityNumber));
+            validationResults.Add(validator.CheckAddress(user.Address));
+            validationResults.Add(validator.CheckPhoneNumber(user.PhoneNumber));
+            validationResults.Add(validator.CheckEmergencyPhoneNumber(user.EmergencyPhoneNumber));
+
+            List<string> errors = new List<string>();
+
+            foreach (var results in validationResults)
             {
-                await _userManager.AddToRoleAsync(user, UserRoles.Member);
-                return RedirectToAction("Index", "Home");
+                //ModelState.AddModelError("", item.Description);
+                if(results != null)
+                    foreach (var error in results)
+                    {
+                        errors.Add(error.Description);
+                    }
             }
-            else
+            ViewBag.Errors = errors;
+
+            if(errors.Count == 0)
             {
-                foreach (var item in result.Errors)
+                var result = await _userManager.CreateAsync(user, userCredentials.Password);
+
+                if (result.Succeeded)
                 {
-                    ModelState.AddModelError("", item.Description);
+                    await _userManager.AddToRoleAsync(user, UserRoles.Member);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        //ModelState.AddModelError("", item.Description);
+                        errors.Add(error.Description);
+                    }
+                    ViewBag.Errors = errors;
                 }
             }
             return View(userCredentials);
