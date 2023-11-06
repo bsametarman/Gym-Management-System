@@ -5,10 +5,13 @@ using GymManagementSystem.DataAccess.Concrete;
 using GymManagementSystem.Entities.Concrete;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace GymManagementSystem.Business.Concrete
 {
@@ -106,8 +109,10 @@ namespace GymManagementSystem.Business.Concrete
         {
             var user = _userDal.Get(u => u.UserName == username && u.Password == password);
             
+            
             if(user != null)
             {
+                   
                 if ((DateTime.Now - user.MembershipExpirationDate).Days > 3)
                 {
                     user.IsActive = false;
@@ -118,7 +123,14 @@ namespace GymManagementSystem.Business.Concrete
                     if (user.MembershipExpirationDate > DateTime.Now)
                     {
                         if (user.IsActive != false)
-                            return new SuccessResult("Kullanıcı doğrulandı!");
+                        {   var limit = (user.MembershipExpirationDate - DateTime.Now).Days;
+                            if (limit < 0)
+                                limit = 0;
+                           
+                            var successMessage = new SuccessResult("Kullanıcı doğrulandı!" + " " + user.Name.ToString() + " " + user.Surname.ToString() + " kalan hak: " +limit );
+                            return successMessage;
+                        }
+                           
                         else
                             return new ErrorResult("Üyeliğiniz kısıtlanmış veya süresi dolmuş!");
                     }
