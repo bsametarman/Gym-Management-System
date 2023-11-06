@@ -3,9 +3,15 @@ using GymManagementSystem.Core.Utilities.Results;
 using GymManagementSystem.Entities.Concrete;
 using GymManagementSystem.MVCWebUI.Models;
 using GymManagementSystem.MVCWebUI.Tools.Validation;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MimeKit;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.IO;
 
 namespace GymManagementSystem.MVCWebUI.Controllers
 {
@@ -79,13 +85,18 @@ namespace GymManagementSystem.MVCWebUI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SignUp(UserRegisterViewModel userCredentials)
         {
-            //if (!ModelState.IsValid)
-            //    return View(userCredentials);
+			//if (!ModelState.IsValid)
+			//    return View(userCredentials);
+			List<string> errors = new List<string>();
 
-            var findUser = await _userManager.FindByEmailAsync(userCredentials.Email);
+			var findUser = await _userManager.FindByEmailAsync(userCredentials.Email);
 
             if (findUser != null)
+            {
+                errors.Add("There is a user with that informations.");
+                ViewBag.Errors = errors;
                 return View(userCredentials);
+            }
 
             AppUser user = new AppUser
             {
@@ -127,8 +138,6 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             validationResults.Add(validator.CheckPhoneNumber(user.PhoneNumber));
             validationResults.Add(validator.CheckEmergencyPhoneNumber(user.EmergencyPhoneNumber));
 
-            List<string> errors = new List<string>();
-
             foreach (var results in validationResults)
             {
                 //ModelState.AddModelError("", item.Description);
@@ -142,6 +151,33 @@ namespace GymManagementSystem.MVCWebUI.Controllers
 
             if(errors.Count == 0)
             {
+				string jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "secrets.json");
+				string json = System.IO.File.ReadAllText(jsonFilePath);
+				JObject jsonObj = JObject.Parse(json);
+
+				//Sending mail
+				MimeMessage mimeMessage = new MimeMessage();
+                MailboxAddress mailboxAddressFrom = new MailboxAddress("Gym Management System Support", "gym.man.system.sup@gmail.com");
+                MailboxAddress mailboxAddressTo = new MailboxAddress("User", user.Email);
+
+                mimeMessage.From.Add(mailboxAddressFrom);
+                mimeMessage.To.Add(mailboxAddressTo);
+
+                var bodyBuilder = new BodyBuilder();
+                bodyBuilder.TextBody = $"Hoşgeldiniz!" +
+                    $"\n\nÜyelik bilgileriniz aşağıdaki gibidir." +
+                    $"\n\nKullanıcı Adı: {user.UserName}" +
+                    $"\nŞifre: {user.Password}" +
+                    $"\n\nDilerseniz ekte bulunan QR kod ile salonlarımıza hızlıca giriş yapabilirsiniz.";
+                mimeMessage.Body = bodyBuilder.ToMessageBody();
+                mimeMessage.Subject = "GYM Üyelik Bilgileri";
+
+                SmtpClient smtp = new SmtpClient();
+                smtp.Connect("smtp.gmail.com", 587, false);
+                smtp.Authenticate((string)jsonObj["Secrets"]["Mail"], (string)jsonObj["Secrets"]["Key"]);
+                smtp.Send(mimeMessage);
+                smtp.Disconnect(true);
+
                 var result = await _userManager.CreateAsync(user, userCredentials.Password);
 
                 if (result.Succeeded)
