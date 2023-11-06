@@ -18,21 +18,21 @@
 						<label asp-for="Name">Name</label>
 						<input asp-for="Name" class="form-control" value="" required>
 						<div class="invalid-feedback">
-							Valid first name is required.
+							Name is required.
 						</div>
 					</div>
 					<div class="col-md-6 mb-3">
 						<label asp-for="Surname">Surname</label>
 						<input asp-for="Surname" class="form-control" value="" required>
 						<div class="invalid-feedback">
-							Valid last name is required.
+							Surname is required.
 						</div>
 					</div>
 					<div class="col-md-6 mb-3">
 						<label asp-for="Username">Username</label>
 						<input asp-for="Username" class="form-control" value="" required>
 						<div class="invalid-feedback">
-							Valid last name is required.
+							Username is required.
 						</div>
 					</div>
 					<div class="col-md-6 mb-3">
@@ -46,7 +46,7 @@
 						<div class="input-group">
 							<input asp-for="Password" class="form-control" required>
 							<div class="invalid-feedback" style="width: 100%;">
-								Your username is required.
+								Password is required.
 							</div>
 						</div>
 					</div>
@@ -55,7 +55,7 @@
 						<label asp-for="IdentityNumber">Identity Number<span class="text-muted"></span></label>
 						<input asp-for="IdentityNumber" class="form-control">
 						<div class="invalid-feedback">
-							Please enter a valid email address for shipping updates.
+							Please enter a valid identity number.
 						</div>
 					</div>
 
@@ -65,10 +65,9 @@
 							<option value="">Choose</option>
 							<option>Male</option>
 							<option>Female</option>
-							<option>-</option>
 						</select>
 						<div class="invalid-feedback">
-							Please select a valid country.
+							Please select a valid gender.
 						</div>
 						</div>
 
@@ -94,9 +93,16 @@
 				@if(ViewBag.errors != null)
 				{
 					<div class="alert alert-danger" role="alert">
-						@foreach (var error in ViewBag.errors)
+						@if (ViewBag.errors.Count > 1)
 						{
-							@error <br />
+							@foreach (var error in ViewBag.errors)
+							{
+								@error <br />
+							}
+						}
+						else
+						{
+							@ViewBag.errors[0]
 						}
 					</div>
 				}
