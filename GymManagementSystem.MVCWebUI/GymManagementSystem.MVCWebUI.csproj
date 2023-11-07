@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BarCode" Version="2023.11.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.23" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
@@ -24,6 +25,10 @@
     <ProjectReference Include="..\GymManagementSystem.Business\GymManagementSystem.Business.csproj" />
     <ProjectReference Include="..\GymManagementSystem.DataAccess\GymManagementSystem.DataAccess.csproj" />
     <ProjectReference Include="..\GymManagementSystem.Entities\GymManagementSystem.Entities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Tools\QrCodes\" />
   </ItemGroup>
 
 </Project>
