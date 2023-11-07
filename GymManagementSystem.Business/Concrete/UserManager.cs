@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GymManagementSystem.Business.Concrete
@@ -102,7 +103,7 @@ namespace GymManagementSystem.Business.Concrete
             return new SuccessResult("Başarıyla güncellendi !!!");
         }
 
-        public IResult CheckUserStatus(string username, string password)
+        public IDataResult<CheckUser> CheckUserStatus(string username, string password)
         {
             var user = _userDal.Get(u => u.UserName == username && u.PasswordHash == password);
             
@@ -118,15 +119,26 @@ namespace GymManagementSystem.Business.Concrete
                     if (user.MembershipExpirationDate > DateTime.Now)
                     {
                         if (user.IsActive != false)
-                            return new SuccessResult("Kullanıcı doğrulandı!");
+                        {
+                            var checkUser = new CheckUser
+                            {
+								Name = user.Name,
+								Surname = user.Surname,
+								UserName = user.UserName,
+                                EnterCount = user.EnterCount,
+                                LastPaymentDate = user.LastPaymentDate,
+                                MembershipExpirationDate = user.MembershipExpirationDate
+                            };
+							return new SuccessDataResult<CheckUser>(checkUser, "Kullanıcı doğrulandı!");
+						}
                         else
-                            return new ErrorResult("Üyeliğiniz kısıtlanmış veya süresi dolmuş!");
+                            return new ErrorDataResult<CheckUser>("Üyeliğiniz kısıtlanmış veya süresi dolmuş!");
                     }
                     else
-                        return new ErrorResult("Üyeliğinizin süresi dolmuş!");
+                        return new ErrorDataResult<CheckUser>("Üyeliğinizin süresi dolmuş!");
                 }   
             }
-            return new ErrorResult("Kullanıcı adı veya şifre yanlış!");
+            return new ErrorDataResult<CheckUser>("Kullanıcı adı veya şifre yanlış!");
         }
     }
 }
