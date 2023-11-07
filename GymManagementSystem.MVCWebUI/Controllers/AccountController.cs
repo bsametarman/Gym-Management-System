@@ -3,6 +3,7 @@ using GymManagementSystem.Core.Utilities.Results;
 using GymManagementSystem.Entities.Concrete;
 using GymManagementSystem.MVCWebUI.Models;
 using GymManagementSystem.MVCWebUI.Tools.Validation;
+using IronBarCode;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -151,39 +152,46 @@ namespace GymManagementSystem.MVCWebUI.Controllers
 
             if(errors.Count == 0)
             {
-				string jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "secrets.json");
-				string json = System.IO.File.ReadAllText(jsonFilePath);
-				JObject jsonObj = JObject.Parse(json);
-
-				//Sending mail
-				MimeMessage mimeMessage = new MimeMessage();
-                MailboxAddress mailboxAddressFrom = new MailboxAddress("Gym Management System Support", "gym.man.system.sup@gmail.com");
-                MailboxAddress mailboxAddressTo = new MailboxAddress("User", user.Email);
-
-                mimeMessage.From.Add(mailboxAddressFrom);
-                mimeMessage.To.Add(mailboxAddressTo);
-
-                var bodyBuilder = new BodyBuilder();
-                bodyBuilder.TextBody = $"Hoşgeldiniz!" +
-                    $"\n\nÜyelik bilgileriniz aşağıdaki gibidir." +
-                    $"\n\nKullanıcı Adı: {user.UserName}" +
-                    $"\nŞifre: {user.Password}" +
-                    $"\n\nDilerseniz ekte bulunan QR kod ile salonlarımıza hızlıca giriş yapabilirsiniz.";
-                mimeMessage.Body = bodyBuilder.ToMessageBody();
-                mimeMessage.Subject = "GYM Üyelik Bilgileri";
-
-                SmtpClient smtp = new SmtpClient();
-                smtp.Connect("smtp.gmail.com", 587, false);
-                smtp.Authenticate((string)jsonObj["Secrets"]["Mail"], (string)jsonObj["Secrets"]["Key"]);
-                smtp.Send(mimeMessage);
-                smtp.Disconnect(true);
-
                 var result = await _userManager.CreateAsync(user, userCredentials.Password);
-
-                if (result.Succeeded)
+                
+				if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, UserRoles.Member);
-                    return RedirectToAction("Index", "Home");
+
+                    var passwordHash = _userManager.FindByIdAsync(user.Id).Result.PasswordHash;
+
+					var qrCode = QRCodeWriter.CreateQrCode($"{user.UserName}*onyedieylulgym*{passwordHash}");
+					qrCode.SaveAsPng($"./Tools/QrCodes/{user.UserName}.png");
+
+					// Reading credentials from json for email sending
+					string jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "secrets.json");
+					string json = System.IO.File.ReadAllText(jsonFilePath);
+					JObject jsonObj = JObject.Parse(json);
+
+					//Sending mail
+					MimeMessage mimeMessage = new MimeMessage();
+
+					mimeMessage.From.Add(new MailboxAddress("Gym Management System Support", "gym.man.system.sup@gmail.com"));
+					mimeMessage.To.Add(new MailboxAddress("User", user.Email));
+
+					var bodyBuilder = new BodyBuilder();
+					bodyBuilder.TextBody = $"Hoşgeldiniz!" +
+						$"\n\nÜyelik bilgileriniz aşağıdaki gibidir." +
+						$"\n\nKullanıcı Adı: {user.UserName}" +
+						$"\nŞifre: {user.Password}" +
+						$"\n\nDilerseniz ekte bulunan QR kod ile salonlarımıza hızlıca giriş yapabilirsiniz.";
+					bodyBuilder.Attachments.Add(@$"./Tools/QrCodes/{user.UserName}.png");
+
+					mimeMessage.Body = bodyBuilder.ToMessageBody();
+					mimeMessage.Subject = "GYM Üyelik Bilgileri";
+
+					SmtpClient smtp = new SmtpClient();
+					smtp.Connect("smtp.gmail.com", 587, false);
+					smtp.Authenticate((string)jsonObj["Secrets"]["Mail"], (string)jsonObj["Secrets"]["Key"]);
+					smtp.Send(mimeMessage);
+					smtp.Disconnect(true);
+
+					return RedirectToAction("Index", "Home");
                 }
                 else
                 {
