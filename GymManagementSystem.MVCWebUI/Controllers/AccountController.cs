@@ -157,41 +157,9 @@ namespace GymManagementSystem.MVCWebUI.Controllers
 				if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, UserRoles.Member);
+                    SendUserToEmail(user);
 
-                    var passwordHash = _userManager.FindByIdAsync(user.Id).Result.PasswordHash;
-
-					var qrCode = QRCodeWriter.CreateQrCode($"{user.UserName}*onyedieylulgym*{passwordHash}");
-					qrCode.SaveAsPng($"./Tools/QrCodes/{user.UserName}.png");
-
-					// Reading credentials from json for email sending
-					string jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "secrets.json");
-					string json = System.IO.File.ReadAllText(jsonFilePath);
-					JObject jsonObj = JObject.Parse(json);
-
-					//Sending mail
-					MimeMessage mimeMessage = new MimeMessage();
-
-					mimeMessage.From.Add(new MailboxAddress("Gym Management System Support", "gym.man.system.sup@gmail.com"));
-					mimeMessage.To.Add(new MailboxAddress("User", user.Email));
-
-					var bodyBuilder = new BodyBuilder();
-					bodyBuilder.TextBody = $"Hoşgeldiniz!" +
-						$"\n\nÜyelik bilgileriniz aşağıdaki gibidir." +
-						$"\n\nKullanıcı Adı: {user.UserName}" +
-						$"\nŞifre: {user.Password}" +
-						$"\n\nDilerseniz ekte bulunan QR kod ile salonlarımıza hızlıca giriş yapabilirsiniz.";
-					bodyBuilder.Attachments.Add(@$"./Tools/QrCodes/{user.UserName}.png");
-
-					mimeMessage.Body = bodyBuilder.ToMessageBody();
-					mimeMessage.Subject = "GYM Üyelik Bilgileri";
-
-					SmtpClient smtp = new SmtpClient();
-					smtp.Connect("smtp.gmail.com", 587, false);
-					smtp.Authenticate((string)jsonObj["Secrets"]["Mail"], (string)jsonObj["Secrets"]["Key"]);
-					smtp.Send(mimeMessage);
-					smtp.Disconnect(true);
-
-					return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -351,10 +319,106 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             return RedirectToAction("Index", "Dashboard");
         }
 
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(UserForgotPasswordViewModel forgotPasswordViewModel)
+        {
+            List<string> errors = new List<string>();
+            var user = await _userManager.FindByEmailAsync(forgotPasswordViewModel.Email);
+
+            if(user != null)
+            {
+                List<List<IdentityError>> validationResults = new List<List<IdentityError>>();
+
+                UserValidator validator = new UserValidator(_userService);
+                var passwordValidation = validator.CheckPassword(forgotPasswordViewModel.NewPassword);
+
+                validationResults.Add(passwordValidation);
+
+                foreach (var results in validationResults)
+                {
+                    if (results != null)
+                        foreach (var error in results)
+                        {
+                            errors.Add(error.Description);
+                        }
+                }
+                if(errors.Count == 0)
+                {
+                    user.Password = forgotPasswordViewModel.NewPassword;
+                    user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, forgotPasswordViewModel.NewPassword);
+
+                    var result = await _userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        SendUserToEmail(user);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                            errors.Add(error.Description);
+                        ViewBag.Errors = errors;
+                    }
+                }
+                ViewBag.Errors = errors;
+                return View(forgotPasswordViewModel);
+            }
+            else
+            {
+                errors.Add("User could not found with this email.");
+                ViewBag.Errors = errors;
+                return View(forgotPasswordViewModel);
+            }
+            
+        }
+
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public void SendUserToEmail(AppUser user)
+        {
+            var passwordHash = _userManager.FindByIdAsync(user.Id).Result.PasswordHash;
+
+            var qrCode = QRCodeWriter.CreateQrCode($"{user.UserName}*onyedieylulgym*{passwordHash}");
+            qrCode.SaveAsPng($"./Tools/QrCodes/{user.UserName}.png");
+
+            // Reading credentials from json for email sending
+            string jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "secrets.json");
+            string json = System.IO.File.ReadAllText(jsonFilePath);
+            JObject jsonObj = JObject.Parse(json);
+
+            //Sending mail
+            MimeMessage mimeMessage = new MimeMessage();
+
+            mimeMessage.From.Add(new MailboxAddress("Gym Management System Support", "gym.man.system.sup@gmail.com"));
+            mimeMessage.To.Add(new MailboxAddress("User", user.Email));
+
+            var bodyBuilder = new BodyBuilder();
+            bodyBuilder.TextBody = $"Hoşgeldiniz!" +
+                $"\n\nÜyelik bilgileriniz aşağıdaki gibidir." +
+                $"\n\nKullanıcı Adı: {user.UserName}" +
+                $"\nŞifre: {user.Password}" +
+                $"\n\nDilerseniz ekte bulunan QR kod ile salonlarımıza hızlıca giriş yapabilirsiniz.";
+            bodyBuilder.Attachments.Add(@$"./Tools/QrCodes/{user.UserName}.png");
+
+            mimeMessage.Body = bodyBuilder.ToMessageBody();
+            mimeMessage.Subject = "GYM Üyelik Bilgileri";
+
+            SmtpClient smtp = new SmtpClient();
+            smtp.Connect("smtp.gmail.com", 587, false);
+            smtp.Authenticate((string)jsonObj["Secrets"]["Mail"], (string)jsonObj["Secrets"]["Key"]);
+            smtp.Send(mimeMessage);
+            smtp.Disconnect(true);
         }
     }
 }
