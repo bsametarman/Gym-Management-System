@@ -37,6 +37,9 @@
             </div>
         </div>
     </div>
+    <div>
+        <a asp-route-id="@ViewBag.Id" asp-controller="Account" asp-action="PasswordChange" class="btn btn-outline-success btn-lg">Change Password</a>
+    </div>
 }
 
 @if (User.IsInRole("owner") || User.IsInRole("employee") || User.IsInRole("manager"))

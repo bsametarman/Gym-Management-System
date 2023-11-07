@@ -24,6 +24,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             {
                 var userId = _userManager.GetUserId(HttpContext.User);
                 var viewBagUser = _userManager.FindByIdAsync(userId);
+                ViewBag.Id = userId;
                 ViewBag.Name = viewBagUser.Result.Name;
                 ViewBag.Surname = viewBagUser.Result.Surname;
                 ViewBag.Username = viewBagUser.Result.UserName;

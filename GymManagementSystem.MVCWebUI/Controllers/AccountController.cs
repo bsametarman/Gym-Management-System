@@ -199,18 +199,45 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             return View();
         }
 
-        public async Task<IActionResult> UserPasswordChange(string id, string password)
+        [HttpPost]
+        public async Task<IActionResult> PasswordChange(UserPasswordChangeViewModel passwordChangeViewModel)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            ViewBag.id = passwordChangeViewModel.Id;
+            List<string> errors = new List<string>();
+
+            var user = await _userManager.FindByIdAsync(passwordChangeViewModel.Id);
 
             if (user == null)
-                return View(id);
+                return View(passwordChangeViewModel.Id);
 
-            user.Password = password;
-            user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, password);
-            await _userManager.UpdateAsync(user);
+            UserValidator validator = new UserValidator(_userService);
 
-            return RedirectToAction("Index", "Dashboard");
+            List<List<IdentityError>> validationResults = new List<List<IdentityError>>();
+
+            validationResults.Add(validator.CheckPassword(passwordChangeViewModel.Password));
+
+            foreach (var results in validationResults)
+            {
+                if (results != null)
+                    foreach (var error in results)
+                    {
+                        errors.Add(error.Description);
+                    }
+            }
+            ViewBag.Errors = errors;
+
+            if(errors.Count == 0)
+            {
+                user.Password = passwordChangeViewModel.Password;
+                user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, passwordChangeViewModel.Password);
+                await _userManager.UpdateAsync(user);
+
+                SendUserToEmail(user);
+
+                return RedirectToAction("Index", "Dashboard");
+            }
+
+            return View(passwordChangeViewModel);
         }
 
         public IActionResult UsernameChange(string id)
@@ -376,7 +403,6 @@ namespace GymManagementSystem.MVCWebUI.Controllers
                 ViewBag.Errors = errors;
                 return View(forgotPasswordViewModel);
             }
-            
         }
 
         public async Task<IActionResult> LogOut()
