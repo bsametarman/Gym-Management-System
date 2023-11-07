@@ -104,7 +104,7 @@ namespace GymManagementSystem.Business.Concrete
 
         public IResult CheckUserStatus(string username, string password)
         {
-            var user = _userDal.Get(u => u.UserName == username && u.Password == password);
+            var user = _userDal.Get(u => u.UserName == username && u.PasswordHash == password);
             
             if(user != null)
             {
