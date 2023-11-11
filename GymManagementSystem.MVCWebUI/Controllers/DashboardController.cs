@@ -1,8 +1,10 @@
 ﻿using GymManagementSystem.Business.Abstract;
 using GymManagementSystem.Entities.Concrete;
+using GymManagementSystem.MVCWebUI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace GymManagementSystem.MVCWebUI.Controllers
 {
@@ -11,11 +13,13 @@ namespace GymManagementSystem.MVCWebUI.Controllers
     {
         private IUserService _userService;
         private UserManager<AppUser> _userManager;
+        private IMembershipService _membershipService;
 
-        public DashboardController(IUserService userService, UserManager<AppUser> userManager)
+        public DashboardController(IUserService userService, UserManager<AppUser> userManager, IMembershipService membershipService)
         {
             _userService = userService;
             _userManager = userManager;
+            _membershipService = membershipService;
         }
 
         public async Task<IActionResult> Index()
@@ -102,6 +106,39 @@ namespace GymManagementSystem.MVCWebUI.Controllers
                 return View(usersWithUserRole);
             }
             return View();
+        }
+
+        public IActionResult Payment()
+        {
+            var memberships = _membershipService.GetAll();
+            ViewBag.Memberships = memberships.Data;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Payment(UserPaymentViewModel userPaymentViewModel)
+        {
+            if (userPaymentViewModel != null)
+            {
+                var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+                user.MembershipTypeId = userPaymentViewModel.MembershipTypeId;
+                if(user.MembershipTypeId == 1 || user.MembershipTypeId == 2)
+                {
+                    user.LastPaymentDate = DateTime.Now;
+                    user.MembershipExpirationDate = user.MembershipExpirationDate.AddDays(30);
+                    user.IsPassActive = true;
+                    await _userManager.UpdateAsync(user);
+                }
+                else if(user.MembershipTypeId == 3)
+                {
+                    user.LastPaymentDate = DateTime.Now;
+                    user.MembershipExpirationDate = user.MembershipExpirationDate.AddYears(5);
+                    user.IsPassActive = true;
+                    await _userManager.UpdateAsync(user);
+                }
+            }
+            return RedirectToAction("Index", "Dashboard");
         }
     }
 }

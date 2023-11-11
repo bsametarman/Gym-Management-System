@@ -14,6 +14,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IUserService, UserManager>();
 builder.Services.AddTransient<IUserDal, EfUserDal>();
 
+builder.Services.AddTransient<IMembershipService, MembershipManager>();
+builder.Services.AddTransient<IMembershipDal, EfMembershipDal>();
+
 builder.Services.AddDbContext<GymManagementSystemDbContext>();
 
 builder.Services.AddIdentity<AppUser, IdentityRole>()

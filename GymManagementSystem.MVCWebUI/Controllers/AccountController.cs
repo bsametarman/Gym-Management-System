@@ -74,6 +74,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
                     {
                         TempData["Error"] = "Your membership time has expired, please renew your membership.";
                         user.IsActive = false;
+                        user.IsPassActive= false;
                         await _userManager.UpdateAsync(user);
                         return View(model);
                     }
@@ -285,10 +286,12 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             if (user.IsActive == true)
             {
                 user.IsActive = false;
+                user.IsPassActive = false;
             }
             else
             {
                 user.IsActive = true;
+                user.IsPassActive = true;
             }
 
             await _userManager.UpdateAsync(user);
@@ -336,6 +339,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
 
             user.UserRole = role;
             await _userManager.AddToRoleAsync(user, role);
+            user.IsPassActive = true;
             await _userManager.UpdateAsync(user);
 
             return RedirectToAction("Index", "Dashboard");

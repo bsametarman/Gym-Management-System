@@ -109,33 +109,37 @@ namespace GymManagementSystem.Business.Concrete
             
             if(user != null)
             {
-                if ((DateTime.Now - user.MembershipExpirationDate).Days > 3)
+                if ((user.MembershipExpirationDate - DateTime.Now).Days < 0)
                 {
                     user.IsActive = false;
+                    user.IsPassActive= false;
                     _userDal.Update(user);
+
+                    return new ErrorDataResult<CheckUser>("Üyeliğinizin süresi dolmuş. Lütfen üyeliğinizi yenileyin.");
                 }
                 else
                 {
-                    if (user.MembershipExpirationDate > DateTime.Now)
+                    if (user.IsActive)
                     {
-                        if (user.IsActive != false)
+                        if (user.IsPassActive)
                         {
                             var checkUser = new CheckUser
                             {
-								Name = user.Name,
-								Surname = user.Surname,
-								UserName = user.UserName,
+                                Name = user.Name,
+                                Surname = user.Surname,
+                                UserName = user.UserName,
                                 EnterCount = user.EnterCount,
                                 LastPaymentDate = user.LastPaymentDate,
                                 MembershipExpirationDate = user.MembershipExpirationDate
                             };
-							return new SuccessDataResult<CheckUser>(checkUser, "Kullanıcı doğrulandı!");
-						}
+                            return new SuccessDataResult<CheckUser>(checkUser, "Kullanıcı doğrulandı!");
+                        }
                         else
-                            return new ErrorDataResult<CheckUser>("Üyeliğiniz kısıtlanmış veya süresi dolmuş!");
+                            return new ErrorDataResult<CheckUser>("Salonlarımıza giriş için üyelik satın almalısınız.");
                     }
                     else
-                        return new ErrorDataResult<CheckUser>("Üyeliğinizin süresi dolmuş!");
+                        return new ErrorDataResult<CheckUser>("Üyeliğiniz kısıtlanmış. Lütfen iletişime geçiniz.");
+                    
                 }   
             }
             return new ErrorDataResult<CheckUser>("Kullanıcı adı veya şifre yanlış!");
