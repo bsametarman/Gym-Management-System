@@ -11,7 +11,12 @@
         <label asp-for="Password" style="margin-bottom: 3%" class="sr-only">Password</label>
         <input asp-for="Password" type="password" style="margin-bottom: 5%" id="inputPassword" class="form-control" placeholder="Password" required>
         <a class="nav-link text-dark text-end" asp-area="" asp-controller="Account" asp-action="ForgotPassword">Forgot password?</a>
-        
+        @if(TempData["error"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @TempData["error"]
+            </div>
+        }
         <div class="text-center">
             <button class="btn btn-lg btn-primary btn-block " style="margin-bottom: 5%" type="submit">Sign in</button>
         </div>

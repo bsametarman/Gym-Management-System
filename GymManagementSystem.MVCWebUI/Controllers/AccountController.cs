@@ -46,34 +46,49 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             var user = await _userManager.FindByNameAsync(model.Username);
             if (user != null)
             {
-                if (!((DateTime.Now - user.MembershipExpirationDate).Days > 3))
+                var passwordCheck = await _userManager.CheckPasswordAsync(user, model.Password);
+                if (passwordCheck)
                 {
-                    if (user.IsActive != false)
+                    if (!((user.MembershipExpirationDate - DateTime.Now).Days <= 0))
                     {
-                        var passwordCheck = await _userManager.CheckPasswordAsync(user, model.Password);
-                        if (passwordCheck)
+                        if (!user.IsActive)
+                        {
+                            TempData["Error"] = "Your account has been blocked! Please contact with us.";
+                            return View(model);
+                        }
+                        else
                         {
                             var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
                             if (result.Succeeded)
                             {
                                 return RedirectToAction("Index", "Home");
                             }
+                            else
+                            {
+                                TempData["error"] = "Something went wrong. Try again a little bit!";
+                                return View(model);
+                            }
                         }
-                        TempData["Error"] = "Kullanıcı adı veya şifre yanlış!";
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Your membership time has expired, please renew your membership.";
+                        user.IsActive = false;
+                        await _userManager.UpdateAsync(user);
                         return View(model);
                     }
-                    TempData["Error"] = "Hesabınız süreniz doldu veya hesabınız bloke edildi! Lütfen iletişime geçiniz.";
-                    return View(model);
                 }
                 else
                 {
-                    TempData["Error"] = "Hesap süreniz doldu! Lütfen üyeliğinizi yenileyin.";
-                    user.IsActive = false;
-                    await _userManager.UpdateAsync(user);
+                    TempData["Error"] = "Username or password is wrong!";
                     return View(model);
                 }
             }
-            return RedirectToAction("SignIn");
+            else
+            {
+                TempData["Error"] = "Username or password is wrong!";
+                return View(model);
+            }
         }
 
         [AllowAnonymous]

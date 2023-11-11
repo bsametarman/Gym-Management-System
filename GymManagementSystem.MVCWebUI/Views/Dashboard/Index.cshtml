@@ -25,15 +25,14 @@
                 <strong>Trainer: </strong> @ViewBag.TrainerId <br>
                 <strong>Created Date: </strong> @ViewBag.CreatedDate <br>
                 <strong>Expiration Date: </strong> @ViewBag.MembershipExpirationDate <br>
-                @if ((ViewBag.MembershipExpirationDate.Subtract(DateTime.Now).Days + 3) <= 3)
+                @if ((ViewBag.MembershipExpirationDate.Subtract(DateTime.Now).Days) <= 3)
                 {
-                            <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> @(ViewBag.MembershipExpirationDate.Subtract(DateTime.Now).Days + 3) </a> <br>
+                    <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> @(ViewBag.MembershipExpirationDate.Subtract(DateTime.Now).Days) </a> <br>
                 }
                 else
                 {
-                            <strong>Left Days: </strong> <a style="background-color: green; color: white"> @(ViewBag.MembershipExpirationDate.Subtract(DateTime.Now).Days + 3) </a> <br>
+                    <strong>Left Days: </strong> <a style="background-color: green; color: white"> @(ViewBag.MembershipExpirationDate.Subtract(DateTime.Now).Days) </a> <br>
                 }
-                <div>(We are added extra 3 days to your days.)</div>
             </div>
         </div>
     </div>
@@ -91,15 +90,14 @@
                         <strong>Role: </strong> @Model[i].UserRole <br>
                         <strong>Created Date: </strong> @Model[i].CreatedDate <br>
                         <strong>Expiration Date: </strong> @Model[i].MembershipExpirationDate <br>
-                        @if ((Model[i].MembershipExpirationDate.Subtract(DateTime.Now).Days + 3) <= 3)
+                        @if ((Model[i].MembershipExpirationDate.Subtract(DateTime.Now).Days) <= 3)
                         {
-                            <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> @(Model[i].MembershipExpirationDate.Subtract(DateTime.Now).Days + 3) </a> <br>
+                            <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> @(Model[i].MembershipExpirationDate.Subtract(DateTime.Now).Days) </a> <br>
                         }
                         else
                         {
-                            <strong>Left Days: </strong> <a style="background-color: green; color: white"> @(Model[i].MembershipExpirationDate.Subtract(DateTime.Now).Days + 3) </a> <br>
+                            <strong>Left Days: </strong> <a style="background-color: green; color: white"> @(Model[i].MembershipExpirationDate.Subtract(DateTime.Now).Days) </a> <br>
                         }
-                        <div>We are added extra 3 days to your days.</div>
                         @if (Model[i].IsActive == true)
                         {
                             <strong>Active State: </strong> <a style="color: green; font-size: 20px">@Model[i].IsActive </a>
