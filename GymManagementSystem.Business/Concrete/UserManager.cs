@@ -130,7 +130,8 @@ namespace GymManagementSystem.Business.Concrete
                                 UserName = user.UserName,
                                 EnterCount = user.EnterCount,
                                 LastPaymentDate = user.LastPaymentDate,
-                                MembershipExpirationDate = user.MembershipExpirationDate
+                                MembershipExpirationDate = user.MembershipExpirationDate,
+                                LeftDays = (user.MembershipExpirationDate - DateTime.Now).Days > 0 ? (user.MembershipExpirationDate - DateTime.Now).Days : 0
                             };
                             return new SuccessDataResult<CheckUser>(checkUser, "Kullanıcı doğrulandı!");
                         }

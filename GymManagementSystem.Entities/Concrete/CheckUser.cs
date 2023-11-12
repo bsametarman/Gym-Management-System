@@ -13,7 +13,8 @@ namespace GymManagementSystem.Entities.Concrete
 		public string Surname { get; set; }
 		public string UserName { get; set; }
 		public int EnterCount { get; set; }
-		public DateTime LastPaymentDate { get; set; }
+        public int LeftDays { get; set; }
+        public DateTime LastPaymentDate { get; set; }
 		public DateTime MembershipExpirationDate { get; set; }
 	}
 }
