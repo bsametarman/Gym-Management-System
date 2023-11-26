@@ -7,12 +7,27 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/GymManagementSystem.MVCWebUI.styles.css" asp-append-version="true" />
+
+    <style>
+        .dropdown-item[id^='logout'] {
+            transition: background-color 0.3s ease;
+        }
+        .dropdown-item[id^='logout']:hover {
+            background-color: #ffbdc5;
+        }
+        .dropdown-item {
+            transition: background-color 0.3s ease;
+        }
+        .dropdown-item:hover {
+            background-color: #d1ffee;
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GYM</a>
+                <a class="navbar-brand" style="margin-left: 3%;" asp-area="" asp-controller="Home" asp-action="Index">GYM</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,20 +41,27 @@
                 </div>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <div style="margin-right: 1%">
+                    <div class="nav-item dropdown" style="margin-right: 3%;">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">My Account</a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-area="" asp-controller="Dashboard" asp-action="Index" id="dashboard" class="dropdown-item rounded-0">Dashboard</a></li>
+                            <li><a asp-area="" asp-controller="Account" asp-action="LogOut" id="logout" class="dropdown-item rounded-0" style="color: crimson;">Logout</a></li>
+                        </ul>
+                    </div>
+                    @*<div style="margin-right: 1%">
                         <a asp-area="" asp-controller="Dashboard" asp-action="Index" class="btn btn-outline-warning btn-lg">Dashboard</a>
                     </div>
                     <div style="margin-right: 3%">
                         <a asp-area="" asp-controller="Account" asp-action="LogOut" class="btn btn-outline-danger btn-lg">Logout</a>
-                    </div>
+                    </div>*@
                 }
                 else
                 {
                     <div style="margin-right: 1%">
-                        <a asp-area="" asp-controller="Account" asp-action="SignIn" class="btn btn-outline-success btn-lg">Sign In</a>
+                        <a asp-area="" asp-controller="Account" asp-action="SignIn" class="dropdown-item rounded-3">Sign In</a>
                     </div>
                     <div style="margin-right: 3%">
-                        <a asp-area="" asp-controller="Account" asp-action="SignUp" class="btn btn-outline-success btn-lg">Sign Up</a>
+                        <a asp-area="" asp-controller="Account" asp-action="SignUp" class="dropdown-item rounded-3">Sign Up</a>
                     </div>
                 }
             </div>
