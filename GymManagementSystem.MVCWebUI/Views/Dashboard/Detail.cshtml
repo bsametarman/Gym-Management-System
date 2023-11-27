@@ -1,0 +1,142 @@
+﻿@model GymManagementSystem.Entities.Concrete.AppUser
+@{
+	ViewBag.Title = "Details";
+}
+
+@if(User.IsInRole("member")){
+
+}
+else{
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-3 fs-6">
+                <div class="card-header">
+                    <strong>@Model.Name @Model.Surname </strong> <br>
+                    User Id: @Model.Id
+                </div>
+                <div class="card-body">
+                    <div class="card-title">
+                        <strong>Name: </strong> @Model.Name <strong>Surname: </strong> @Model.Surname <br>
+                        <strong>Username: </strong> @Model.UserName <br>
+
+                        @if (User.IsInRole("owner"))
+                        {
+                            <strong> Password: </strong> @Model.Password <br>
+                        }
+                        <strong>Email: </strong> @Model.Email <br>
+                        <strong>Address: </strong> @Model.Address <br>
+                        <strong>Identity Number: </strong> @Model.IdentityNumber <br>
+                        <strong>Gender: </strong> @Model.Gender <br>
+                        <strong>Phone Number: </strong> @Model.PhoneNumber <br>
+                        <strong>Emergency Phone Number: </strong> @Model.EmergencyPhoneNumber <br>
+                        <strong>Blood Type: </strong> @Model.BloodTypeId <br>
+                        <strong>Membership Type: </strong> @Model.MembershipTypeId <br>
+                        <strong>Trainer: </strong> @Model.TrainerId <br>
+                        <strong>Enter Count: </strong> @Model.EnterCount <br>
+                        <strong>Year Of Birth: </strong> @Model.YearOfBirth <br>
+                        <strong>Role: </strong> @Model.UserRole <br>
+                        <strong>Created Date: </strong> @Model.CreatedDate <br>
+                        <strong>Expiration Date: </strong> @Model.MembershipExpirationDate <br>
+                        @if ((Model.MembershipExpirationDate.Subtract(DateTime.Now).Days) <= 3)
+                        {
+                            <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> @(Model.MembershipExpirationDate.Subtract(DateTime.Now).Days) </a> <br>
+                        }
+                        else
+                        {
+                            <strong>Left Days: </strong> <a style="background-color: green; color: white"> @(Model.MembershipExpirationDate.Subtract(DateTime.Now).Days) </a> <br>
+                        }
+                        @if (Model.IsActive == true)
+                        {
+                            <strong>Active State: </strong> <a style="color: green; font-size: 20px">@Model.IsActive </a>
+                        }
+                        else
+                        {
+                            <strong>Active State: </strong> <a style="color: red; font-size: 20px">@Model.IsActive </a>
+                        }
+                    </div>
+                </div>
+                @if (User.IsInRole("owner") || User.IsInRole("employee") || User.IsInRole("manager"))
+                {
+                    <div class="card-footer text-center">
+                        <a asp-route-id="@Model.Id" asp-controller="Account" asp-action="EditActiveState" class="btn btn-outline-warning btn-lg m-1">Active State</a>
+                        @if(User.IsInRole("owner") || User.IsInRole("manager"))
+                        {
+                            <a asp-route-id="@Model.Id" asp-controller="Account" asp-action="DeleteUser" class="btn btn-outline-danger btn-lg m-1">Delete</a>   
+                        }
+                        <a asp-route-id="@Model.Id" asp-controller="Account" asp-action="ExtendTime" class="btn btn-outline-success btn-lg m-1">Extend Time</a>
+                        @if (User.IsInRole("owner"))
+                        {
+                            <a asp-route-id="@Model.Id" asp-controller="Account" asp-action="RoleChange" class="btn btn-outline-info btn-lg m-1">Change Role</a>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-3 fs-6">
+                <div class="card-header">
+                    <strong>Change Informations</strong>
+                </div>
+                <div class="card-body">
+                    <div class="card-title">
+                        <form asp-controller="Account" asp-action="ChangeUserInfo" method="post">
+                            <input type="hidden" asp-for="@Model.Id" />
+                            <div class="form-group">
+                                <label asp-for="@Model.Name">Name</label>
+                                <input type="text" asp-for="@Model.Name" class="form-control" placeholder="Enter name">
+                            </div> <br>
+                            <div class="form-group">
+                                <label asp-for="@Model.Surname">Surname</label>
+                                <input type="text" asp-for="@Model.Surname" class="form-control" placeholder="Enter surname">
+                            </div> <br>
+                            <div class="form-group">
+                                <label asp-for="@Model.UserName">Username</label>
+                                <input type="text" asp-for="@Model.UserName" class="form-control" placeholder="Enter username">
+                            </div> <br>
+                            <div class="form-group">
+                                <label asp-for="@Model.Password">Password</label>
+                                <input type="text" asp-for="@Model.Password" class="form-control" placeholder="Enter password">
+                            </div> <br>
+                            <div class="form-group">
+                                <label asp-for="@Model.Email">Email address</label>
+                                <input type="email" asp-for="@Model.Email" class="form-control" placeholder="Enter email">
+                            </div> <br>
+                            <div class="form-group">
+                                <label asp-for="@Model.Address">Address</label>
+                                <input type="text" asp-for="@Model.Address" class="form-control" placeholder="Address">
+                            </div> <br>
+                            <div class="form-group">
+                                <label asp-for="@Model.PhoneNumber">Phone number</label>
+                                <input type="text" asp-for="@Model.PhoneNumber" class="form-control" placeholder="5554443322">
+                            </div> <br>
+                            <div class="form-group">
+                                <label asp-for="@Model.EmergencyPhoneNumber">Emergency phone number</label>
+                                <input type="text" asp-for="@Model.EmergencyPhoneNumber" class="form-control" placeholder="5554443322">
+                            </div>
+                            <br>
+                            @if (ViewBag.errors != null)
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                    @if (ViewBag.errors.Length > 1)
+                                    {
+                                        @foreach (var error in ViewBag.errors)
+                                        {
+                                            @error <br />
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @ViewBag.errors[0]
+                                    }
+                                </div>
+                            }
+                            <div class="text-center">
+                                <button class="btn btn-lg btn-outline-success btn-block" style="margin-top: 5%;" type="submit">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

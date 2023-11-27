@@ -426,6 +426,79 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ChangeUserInfo(AppUser model)
+        {
+            List<string> errors = new List<string>();
+            bool isCridentialsChanged = false;
+
+            var user = await _userManager.FindByIdAsync(model.Id);
+
+            if (user == null)
+                return View(model.Id);
+
+            UserValidator validator = new UserValidator(_userService);
+
+            List<List<IdentityError>> validationResults = new List<List<IdentityError>>();
+
+            if(user.Name != model.Name)
+                validationResults.Add(validator.CheckName(model.Name));
+            if (user.Surname != model.Surname)
+                validationResults.Add(validator.CheckSurname(model.Surname));
+            if (user.UserName != model.UserName)
+            {
+                validationResults.Add(validator.CheckUsername(model.UserName));
+                isCridentialsChanged = true;
+            }
+            if (user.Password != model.Password)
+            {
+                validationResults.Add(validator.CheckPassword(model.Password));
+                isCridentialsChanged = true;
+            }
+            if (user.Email != model.Email)
+            {
+                validationResults.Add(validator.CheckEmail(model.Email));
+                isCridentialsChanged = true;
+            }
+            if (user.Address != model.Address)
+                validationResults.Add(validator.CheckAddress(model.Address));
+            if (user.PhoneNumber != model.PhoneNumber)
+                validationResults.Add(validator.CheckPhoneNumber(model.PhoneNumber));
+            if (user.EmergencyPhoneNumber != model.EmergencyPhoneNumber)
+                validationResults.Add(validator.CheckEmergencyPhoneNumber(model.EmergencyPhoneNumber));
+
+            foreach (var results in validationResults)
+            {
+                if (results != null)
+                    foreach (var error in results)
+                    {
+                        errors.Add(error.Description);
+                    }
+            }
+            TempData["Errors"] = errors;
+
+            if (errors.Count == 0)
+            {
+                user.Name = model.Name;
+                user.Surname = model.Surname;
+                user.UserName = model.UserName;
+                user.Password = model.Password;
+                user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.Password);
+                user.Email = model.Email;
+                user.Address = model.Address;
+                user.PhoneNumber = model.PhoneNumber;
+                user.EmergencyPhoneNumber = model.EmergencyPhoneNumber;
+                await _userManager.UpdateAsync(user);
+
+                if(isCridentialsChanged)
+                    SendUserToEmail(user);
+
+                return RedirectToAction("Detail", "Dashboard", new { id = model.Id });
+            }
+
+            return RedirectToAction("Detail", "Dashboard", new {id = model.Id});
+        }
+
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();

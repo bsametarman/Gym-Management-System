@@ -140,5 +140,17 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             }
             return RedirectToAction("Index", "Dashboard");
         }
+
+        public async Task<IActionResult> Detail(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            var tempDataValues = TempData["Errors"] as IEnumerable<string>;
+            ViewBag.Errors = tempDataValues;
+            if(user == null)
+            {
+                return NotFound();
+            }
+            return View("~/Views/Dashboard/Detail.cshtml", user);
+        }
     }
 }
