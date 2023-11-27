@@ -126,14 +126,20 @@ namespace GymManagementSystem.MVCWebUI.Controllers
                 if(user.MembershipTypeId == 1 || user.MembershipTypeId == 2)
                 {
                     user.LastPaymentDate = DateTime.Now;
-                    user.MembershipExpirationDate = user.MembershipExpirationDate.AddDays(30);
+                    if ((DateTime.Now - user.MembershipExpirationDate).Days >= 0)
+                        user.MembershipExpirationDate = DateTime.Now.AddDays(30);
+                    else
+                        user.MembershipExpirationDate = user.MembershipExpirationDate.AddDays(30);
                     user.IsPassActive = true;
                     await _userManager.UpdateAsync(user);
                 }
                 else if(user.MembershipTypeId == 3)
                 {
                     user.LastPaymentDate = DateTime.Now;
-                    user.MembershipExpirationDate = user.MembershipExpirationDate.AddYears(5);
+                    if ((DateTime.Now - user.MembershipExpirationDate).Days >= 0)
+                        user.MembershipExpirationDate = DateTime.Now.AddYears(5);
+                    else
+                        user.MembershipExpirationDate = user.MembershipExpirationDate.AddYears(5);
                     user.IsPassActive = true;
                     await _userManager.UpdateAsync(user);
                 }

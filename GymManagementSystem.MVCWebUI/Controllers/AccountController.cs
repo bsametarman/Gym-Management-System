@@ -1,5 +1,4 @@
 ﻿using GymManagementSystem.Business.Abstract;
-using GymManagementSystem.Core.Utilities.Results;
 using GymManagementSystem.Entities.Concrete;
 using GymManagementSystem.MVCWebUI.Models;
 using GymManagementSystem.MVCWebUI.Tools.Validation;
@@ -9,10 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.IO;
 
 namespace GymManagementSystem.MVCWebUI.Controllers
 {
@@ -49,34 +45,30 @@ namespace GymManagementSystem.MVCWebUI.Controllers
                 var passwordCheck = await _userManager.CheckPasswordAsync(user, model.Password);
                 if (passwordCheck)
                 {
-                    if (!((user.MembershipExpirationDate - DateTime.Now).Days <= 0))
+                    if (!user.IsActive)
                     {
-                        if (!user.IsActive)
-                        {
-                            TempData["Error"] = "Your account has been blocked! Please contact with us.";
-                            return View(model);
-                        }
-                        else
-                        {
-                            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
-                            if (result.Succeeded)
-                            {
-                                return RedirectToAction("Index", "Home");
-                            }
-                            else
-                            {
-                                TempData["error"] = "Something went wrong. Try again a little bit!";
-                                return View(model);
-                            }
-                        }
+                        TempData["Error"] = "Your account has been blocked! Please contact with us.";
+                        return View(model);
                     }
                     else
                     {
-                        TempData["Error"] = "Your membership time has expired, please renew your membership.";
-                        user.IsActive = false;
-                        user.IsPassActive= false;
-                        await _userManager.UpdateAsync(user);
-                        return View(model);
+                        if((user.MembershipExpirationDate - DateTime.Now).Days <= 0)
+                        {
+                            user.IsPassActive = false;
+                            await _userManager.UpdateAsync(user);
+                        }
+
+                        var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            TempData["error"] = "Something went wrong. Try again a little bit!";
+                            return View(model);
+                        }
                     }
                 }
                 else
@@ -128,6 +120,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
                 Gender = userCredentials.Gender,
                 UserName = userCredentials.Name,
                 IsActive = true,
+                IsPassActive = false,
                 CreatedDate = DateTime.Now,
                 LastPaymentDate = DateTime.Now,
                 MembershipExpirationDate = DateTime.Now.AddDays(30),
@@ -361,7 +354,10 @@ namespace GymManagementSystem.MVCWebUI.Controllers
                 return View(id);
 
             user.LastPaymentDate = user.LastPaymentDate.AddDays(dayToExtend);
-            user.MembershipExpirationDate = user.MembershipExpirationDate.AddDays(dayToExtend);
+            if((DateTime.Now - user.MembershipExpirationDate).Days >= 0)
+                user.MembershipExpirationDate = DateTime.Now.AddDays(dayToExtend);
+            else
+                user.MembershipExpirationDate = user.MembershipExpirationDate.AddDays(dayToExtend);
             await _userManager.UpdateAsync(user);
 
             return RedirectToAction("Index", "Dashboard");
