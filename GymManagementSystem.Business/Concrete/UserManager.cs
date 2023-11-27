@@ -115,7 +115,7 @@ namespace GymManagementSystem.Business.Concrete
                     user.IsPassActive= false;
                     _userDal.Update(user);
 
-                    return new ErrorDataResult<CheckUser>("Üyeliğinizin süresi dolmuş. Lütfen üyeliğinizi yenileyin.");
+                    return new ErrorDataResult<CheckUser>("Your membership is expired. Please renew your membership.");
                 }
                 else
                 {
@@ -133,17 +133,17 @@ namespace GymManagementSystem.Business.Concrete
                                 MembershipExpirationDate = user.MembershipExpirationDate,
                                 LeftDays = (user.MembershipExpirationDate - DateTime.Now).Days > 0 ? (user.MembershipExpirationDate - DateTime.Now).Days : 0
                             };
-                            return new SuccessDataResult<CheckUser>(checkUser, "Kullanıcı doğrulandı!");
+                            return new SuccessDataResult<CheckUser>(checkUser, "User authenticated!");
                         }
                         else
-                            return new ErrorDataResult<CheckUser>("Salonlarımıza giriş için üyelik satın almalısınız.");
+                            return new ErrorDataResult<CheckUser>("You must buy membership to enter our gyms.");
                     }
                     else
-                        return new ErrorDataResult<CheckUser>("Üyeliğiniz kısıtlanmış. Lütfen iletişime geçiniz.");
+                        return new ErrorDataResult<CheckUser>("Your membership has been restricted. Please contact with us.");
                     
                 }   
             }
-            return new ErrorDataResult<CheckUser>("Kullanıcı adı veya şifre yanlış!");
+            return new ErrorDataResult<CheckUser>("Username or password is not correct.");
         }
     }
 }
