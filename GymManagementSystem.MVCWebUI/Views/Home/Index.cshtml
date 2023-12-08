@@ -1,7 +1,48 @@
-﻿@{
+﻿@model List<GymManagementSystem.Entities.Concrete.Branch>
+@{
     ViewData["Title"] = "Home";
 }
+   
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<link href="~/css/corousel.css" rel="stylesheet"/>
 
 <div class="text-center">
-    <h1 class="display-4">Welcome to the Gym! <br> <br> Are you ready to become the best?</h1>
+    <h1 class="display-4">Welcome to the Gym! <br> <br> Are you ready to become the best? <br> <br> No Pain No Gain!</h1>
 </div>
+
+
+<div id="mySlider" class="carousel slide" data-ride="carousel" style="margin-top: 15%">
+    <div class="carousel-inner">
+        @for (var i = 0; i < Model.Count; i++)
+        {
+            <div class="carousel-item @(i == 0 ? "active" : "")">
+                <img src="https://media.istockphoto.com/id/122152402/photo/the-outside-of-a-sports-center-building.jpg?s=612x612&w=0&k=20&c=nyTeBGvKoilqzcksIYE79OsYtrIJmCnUzJrei2cZryE=" class="d-flex" alt="@Model[i].Name">
+                <div class="container">
+                  <div class="carousel-caption">
+                    <h1>@Model[i].Name</h1>
+                    <p>@Model[i].Address</p>
+                    <p>@Model[i].Description</p>
+                    <p><a class="btn btn-lg btn-primary" href="#" role="button">See more</a></p>
+                  </div>
+                </div>
+            </div>
+        }
+    </div>
+    <a class="carousel-control-prev" href="#mySlider" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#mySlider" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#mySlider').carousel();
+    });
+</script>
+

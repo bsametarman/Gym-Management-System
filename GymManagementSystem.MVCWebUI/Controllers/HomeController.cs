@@ -1,4 +1,8 @@
-﻿using GymManagementSystem.MVCWebUI.Models;
+﻿using GymManagementSystem.Business.Abstract;
+using GymManagementSystem.Entities.Concrete;
+using GymManagementSystem.MVCWebUI.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,16 +10,17 @@ namespace GymManagementSystem.MVCWebUI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private IBranchService _branchService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IBranchService branchService)
         {
-            _logger = logger;
+            _branchService = branchService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var branches = _branchService.GetAll();
+            return View(branches.Data);
         }
 
         public IActionResult Privacy()

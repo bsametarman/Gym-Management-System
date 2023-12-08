@@ -17,6 +17,9 @@ builder.Services.AddTransient<IUserDal, EfUserDal>();
 builder.Services.AddTransient<IMembershipService, MembershipManager>();
 builder.Services.AddTransient<IMembershipDal, EfMembershipDal>();
 
+builder.Services.AddTransient<IBranchService, BranchManager>();
+builder.Services.AddTransient<IBranchDal, EfBranchDal>();
+
 builder.Services.AddDbContext<GymManagementSystemDbContext>();
 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
