@@ -3,6 +3,7 @@ using GymManagementSystem.Business.Concrete;
 using GymManagementSystem.Business.DependencyResolvers.Ninject;
 using GymManagementSystem.Core.Utilities.Results;
 using GymManagementSystem.DataAccess.Concrete;
+using GymManagementSystem.Entities.ComplexTypes;
 using GymManagementSystem.Entities.Concrete;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -72,6 +73,24 @@ namespace GymManagementSystem.WebAPI.Controllers
             var result = userService.CheckUserStatus(username, password);
             if(result.Success)
                 return Ok(new SuccessDataResult<CheckUser>(result.Data, result.Message));
+            return BadRequest(result);
+        }
+
+        [HttpGet("getAllUsersWithDetails")]
+        public IActionResult GetAllUsersWithDetails()
+        {
+            var result = userService.GetAllUsersWithDetails();
+            if (result.Success)
+                return Ok(new SuccessDataResult<List<AppUserDetailed>>(result.Data, result.Message));
+            return BadRequest(result);
+        }
+
+        [HttpGet("getUserWithDetails")]
+        public IActionResult GetUserWithDetails(string id)
+        {
+            var result = userService.GetUserWithDetails(id);
+            if (result.Success)
+                return Ok(new SuccessDataResult<AppUserDetailed>(result.Data, result.Message));
             return BadRequest(result);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using GymManagementSystem.Core.Utilities.Results;
+using GymManagementSystem.Entities.ComplexTypes;
 using GymManagementSystem.Entities.Concrete;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -18,5 +19,7 @@ namespace GymManagementSystem.Business.Abstract
         Task<IDataResult<IdentityResult>> Add(AppUser user, UserManager<AppUser> userManager);
         IResult Update(AppUser user);
         IResult Delete(AppUser user);
+        IDataResult<List<AppUserDetailed>> GetAllUsersWithDetails();
+        IDataResult<AppUserDetailed> GetUserWithDetails(string id);
     }
 }

@@ -2,6 +2,7 @@
 using GymManagementSystem.Core.Utilities.Results;
 using GymManagementSystem.DataAccess.Abstract;
 using GymManagementSystem.DataAccess.Concrete;
+using GymManagementSystem.Entities.ComplexTypes;
 using GymManagementSystem.Entities.Concrete;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -144,6 +145,16 @@ namespace GymManagementSystem.Business.Concrete
                 }   
             }
             return new ErrorDataResult<CheckUser>("Username or password is not correct.");
+        }
+
+        public IDataResult<List<AppUserDetailed>> GetAllUsersWithDetails()
+        {
+            return new SuccessDataResult<List<AppUserDetailed>>(_userDal.GetAllUsersWithDetails(), "Successfully listed!");
+        }
+
+        public IDataResult<AppUserDetailed> GetUserWithDetails(string id)
+        {
+            return new SuccessDataResult<AppUserDetailed>(_userDal.GetUserWithDetails(id), "Successfully listed!");
         }
     }
 }

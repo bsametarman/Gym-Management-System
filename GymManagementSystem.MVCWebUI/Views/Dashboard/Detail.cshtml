@@ -1,4 +1,4 @@
-﻿@model GymManagementSystem.Entities.Concrete.AppUser
+﻿@model GymManagementSystem.Entities.ComplexTypes.AppUserDetailed
 @{
 	ViewBag.Title = "Details";
 }
@@ -29,13 +29,22 @@ else{
                         <strong>Gender: </strong> @Model.Gender <br>
                         <strong>Phone Number: </strong> @Model.PhoneNumber <br>
                         <strong>Emergency Phone Number: </strong> @Model.EmergencyPhoneNumber <br>
-                        <strong>Blood Type: </strong> @Model.BloodTypeId <br>
-                        <strong>Membership Type: </strong> @Model.MembershipTypeId <br>
-                        <strong>Trainer: </strong> @Model.TrainerId <br>
+                        <strong>Blood Type: </strong> @Model.BloodTypeName <br>
+                        <strong>Membership Type: </strong> @Model.MembershipName <br>
+                        <strong>Trainer: </strong> @Model.TrainerName @Model.TrainerSurname <br>
                         <strong>Enter Count: </strong> @Model.EnterCount <br>
                         <strong>Year Of Birth: </strong> @Model.YearOfBirth <br>
                         <strong>Role: </strong> @Model.UserRole <br>
                         <strong>Created Date: </strong> @Model.CreatedDate <br>
+                        @if(Model.PaymentStatusName == "Approved")
+                        {
+                            <strong>Payment Status: </strong> <a style="background-color: green; color: white;"> @Model.PaymentStatusName </a> <br>
+                        }
+                        else
+                        {
+                            <strong>Payment Status: </strong> <a style="background-color: yellow; color: red;"> @Model.PaymentStatusName </a> <br>
+                        }
+                        <strong>Last Payment Date: </strong> @Model.LastPaymentDate <br>
                         <strong>Expiration Date: </strong> @Model.MembershipExpirationDate <br>
                         @if ((Model.MembershipExpirationDate.Subtract(DateTime.Now).Days) <= 3)
                         {

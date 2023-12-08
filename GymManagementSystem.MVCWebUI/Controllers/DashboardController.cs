@@ -1,4 +1,5 @@
 ﻿using GymManagementSystem.Business.Abstract;
+using GymManagementSystem.Entities.ComplexTypes;
 using GymManagementSystem.Entities.Concrete;
 using GymManagementSystem.MVCWebUI.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -147,16 +148,16 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             return RedirectToAction("Index", "Dashboard");
         }
 
-        public async Task<IActionResult> Detail(string id)
+        public IActionResult Detail(string id)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = _userService.GetUserWithDetails(id);
             var tempDataValues = TempData["Errors"] as IEnumerable<string>;
             ViewBag.Errors = tempDataValues;
             if(user == null)
             {
                 return NotFound();
             }
-            return View("~/Views/Dashboard/Detail.cshtml", user);
+            return View("~/Views/Dashboard/Detail.cshtml", user.Data);
         }
     }
 }
