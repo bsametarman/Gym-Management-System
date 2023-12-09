@@ -2,11 +2,25 @@
 @{
     ViewData["Title"] = "Home";
 }
-   
+  
+@section WithoutContainer{
+}
+
+<script src="~/js/slidingtext.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <link href="~/css/corousel.css" rel="stylesheet"/>
+<link href="~/css/slidingtext.css" rel="stylesheet"/>
+
+
+<div class="sliding-text">
+    <marquee behavior="scroll" direction="left">
+        <span id="text-sliding">DISCOUNT! Subscribe NOW!</span>
+    </marquee>
+</div>
+
+<br />
 
 <div class="text-center">
     <h1 class="display-4">Welcome to the Gym! <br> <br> Are you ready to become the best? <br> <br> No Pain No Gain!</h1>

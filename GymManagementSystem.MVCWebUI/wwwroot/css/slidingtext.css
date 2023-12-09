@@ -1,0 +1,17 @@
+﻿.sliding-text {
+    margin: 0;
+    background-color: #ffdfe7;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.sliding-text marquee {
+    margin: 0;
+    padding: 0;
+}
+
+.sliding-text span {
+    font-size: 18px;
+    white-space: nowrap;
+    color: #960e18;
+}

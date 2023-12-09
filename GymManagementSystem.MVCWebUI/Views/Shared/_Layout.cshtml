@@ -73,12 +73,22 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    @if (IsSectionDefined("WithoutContainer"))
+    {
+        RenderSection("WithoutContainer", required: false);
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
-    </div>
-
+    }
+    else
+    {
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    }
+    
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 All Rights Reserved
