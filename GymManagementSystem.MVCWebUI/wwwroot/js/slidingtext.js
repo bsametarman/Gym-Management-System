@@ -3,12 +3,12 @@
 
     setInterval(function () {
         changeColor(slidingText);
-    }, 1000);
+    }, 500);
 });
 
 function changeColor(element) {
     let currentColor = window.getComputedStyle(element).color;
-    let colorToChange = (currentColor === "rgb(150, 14, 24)") ? "rgb(52, 47, 109)" : "rgb(150, 14, 24)";
+    let colorToChange = (currentColor === "rgb(255, 244, 79)") ? "rgb(0, 255, 255)" : "rgb(255, 244, 79)";
 
     element.style.color = colorToChange;
 }

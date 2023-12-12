@@ -1,6 +1,6 @@
 ﻿.sliding-text {
     margin: 0;
-    background-color: #ffdfe7;
+    background-color: #073072;
     width: 100%;
     box-sizing: border-box;
 }
@@ -11,7 +11,8 @@
 }
 
 .sliding-text span {
-    font-size: 18px;
+    font-size: 24px;
+    font-weight: bold;
     white-space: nowrap;
-    color: #960e18;
+    color: rgb(255, 244, 79);
 }
