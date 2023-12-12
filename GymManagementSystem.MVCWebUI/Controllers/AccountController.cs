@@ -2,13 +2,16 @@
 using GymManagementSystem.Entities.Concrete;
 using GymManagementSystem.MVCWebUI.Models;
 using GymManagementSystem.MVCWebUI.Tools.Validation;
-using IronBarCode;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 using Newtonsoft.Json.Linq;
+using System.Drawing;
+using ZXing.QrCode;
+using ZXing;
+using ZXing.Windows.Compatibility;
 
 namespace GymManagementSystem.MVCWebUI.Controllers
 {
@@ -505,8 +508,22 @@ namespace GymManagementSystem.MVCWebUI.Controllers
         {
             var passwordHash = _userManager.FindByIdAsync(user.Id).Result.PasswordHash;
 
-            var qrCode = QRCodeWriter.CreateQrCode($"{user.UserName}*onyedieylulgym*{passwordHash}");
-            qrCode.SaveAsPng($"./Tools/QrCodes/{user.UserName}.png");
+            QrCodeEncodingOptions options = new()
+            {
+                DisableECI = true,
+                CharacterSet = "UTF-8",
+                Width = 500,
+                Height = 500
+            };
+
+            BarcodeWriter writer = new()
+            {
+                Format = BarcodeFormat.QR_CODE,
+                Options = options
+            };
+
+            Bitmap qrCodeBitmap = writer.Write($"{user.UserName}*onyedieylulgym*{passwordHash}");
+            qrCodeBitmap.Save($"./Tools/QrCodes/{user.UserName}.png");
 
             // Reading credentials from json for email sending
             string jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "secrets.json");
