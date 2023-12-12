@@ -1,0 +1,54 @@
+﻿@model GymManagementSystem.Entities.Concrete.Branch
+
+@{
+    ViewData["Title"] = Model.Name + "Branch";
+}
+
+@section WithoutContainer{
+}
+
+<script src="~/js/slidingtext.js"></script>
+<link href="~/css/corousel.css" rel="stylesheet"/>
+<link href="~/css/slidingtext.css" rel="stylesheet"/>
+
+<div class="sliding-text">
+    <marquee behavior="scroll" direction="left">
+        <span id="text-sliding">DISCOUNT! Subscribe NOW!</span>
+    </marquee>
+</div>
+
+<br />
+
+<div class="alert alert-warning" style="text-align: center; font-size: 18px; font-weight: bold;" role="alert">
+    Our memberships give access to all branches.
+</div>
+
+<br />
+
+<div class="container">
+    <div class="card flex-md-row mb-4 box-shadow h-md-250">
+        <div class="card-body d-flex flex-column align-items-start">
+            <strong class="d-inline-block mb-2 text-primary">@Model.Name</strong>
+            <h3 class="mb-0">
+                @Model.Name / @Model.Country
+            </h3>
+            <div class="mb-1 text-muted">
+                @Model.Address <br />
+                @Model.PhoneNumber <br />
+                @Model.Email
+            </div>
+            <br />
+            <p class="card-text mb-auto" style="font-size: 20px;">
+                @Model.Description <br /> <br />
+                <strong class="d-inline-block mb-2 text-primary">Capacity:</strong> @Model.Capacity Person<br />
+                <strong class="d-inline-block mb-2 text-primary">Number of Members:</strong> @Model.NumberOfMembers Person <br />
+                <strong class="d-inline-block mb-2 text-primary">Size of the gym (square meters):</strong> @Model.SquareMeters <br />
+                <strong class="d-inline-block mb-2 text-primary">Number of Tools:</strong> @Model.NumberOfTools <br /> <br />
+                <strong class="d-inline-block mb-2 text-primary">Weekdays working hours:</strong> <b> @Model.WeekdaysOpeningTime - @Model.WeekdaysClosingTime </b> <br />
+                <strong class="d-inline-block mb-2 text-primary">Weekends working hours:</strong> <b> @Model.WeekendsOpeningTime - @Model.WeekendsClosingTime </b> <br />
+            </p>
+            <br>
+        </div>
+        <img class="card-img-right flex-auto d-none d-md-block" style="width: 40%;" src="https://media.istockphoto.com/id/122152402/photo/the-outside-of-a-sports-center-building.jpg?s=612x612&w=0&k=20&c=nyTeBGvKoilqzcksIYE79OsYtrIJmCnUzJrei2cZryE=" alt="Best Gym">
+    </div>
+</div>

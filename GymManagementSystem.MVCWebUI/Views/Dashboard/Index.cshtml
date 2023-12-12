@@ -3,147 +3,177 @@
     ViewBag.Title = "Dashboard";
 }
 
+<script src="~/js/slidingtext.js"></script>
+<link href="~/css/corousel.css" rel="stylesheet"/>
+<link href="~/css/slidingtext.css" rel="stylesheet"/>
+
+@section WithoutContainer{
+}
+
 @if (User.IsInRole("member"))
 {
-    <h1 class="text-center">Dashboard</h1>
+    <div class="sliding-text">
+        <marquee behavior="scroll" direction="left">
+            <span id="text-sliding">DISCOUNT! Subscribe NOW!</span>
+        </marquee>
+    </div>
+
     <br />
-    <div class="card mb-3 text-center fs-5">
-        <div class="card-header">
-            <strong>@ViewBag.Name @ViewBag.Surname </strong> <br>
-        </div>
-        <div class="card-body">
-            <div class="card-title">
-                <strong>Username: </strong> @ViewBag.Username<br>
-                <strong>Identity Number: </strong> @ViewBag.IdentityNumber <br>
-                <strong>Address: </strong> @ViewBag.Address <br>
-                <strong>Email: </strong> @ViewBag.Email <br>
-                <strong>Phone Number: </strong> @ViewBag.PhoneNumber <br>
-                <strong>Emergency Phone Number: </strong> @ViewBag.EmergencyPhoneNumber <br>
-                <strong>Blood Type: </strong> @ViewBag.BloodTypeId <br>
-                <strong>Year Of Birth: </strong> @ViewBag.YearOfBirth <br>
-                <strong>Enter Count: </strong> @ViewBag.EnterCount <br>
-                <strong>Trainer: </strong> @ViewBag.TrainerId <br>
-                <strong>Created Date: </strong> @ViewBag.CreatedDate <br>
-                <strong>Expiration Date: </strong> @ViewBag.MembershipExpirationDate <br>
-                @{
-                    var leftDays = ViewBag.MembershipExpirationDate.Subtract(DateTime.Now).Days;
-                }
-                @if (leftDays <= 3)
-                {
-                    @if(leftDays > 0)
+
+    <div class="alert alert-warning" style="text-align: center; font-size: 18px; font-weight: bold;" role="alert">
+        Our memberships give access to all branches.
+    </div>
+
+    <br />
+    <div class="container">
+        <h1 class="text-center">Dashboard</h1>
+        <br />
+
+        <div class="card mb-3 text-center fs-5">
+            <div class="card-header">
+                <strong>@ViewBag.Name @ViewBag.Surname </strong> <br>
+            </div>
+            <div class="card-body">
+                <div class="card-title">
+                    <strong>Username: </strong> @ViewBag.Username<br>
+                    <strong>Identity Number: </strong> @ViewBag.IdentityNumber <br>
+                    <strong>Address: </strong> @ViewBag.Address <br>
+                    <strong>Email: </strong> @ViewBag.Email <br>
+                    <strong>Phone Number: </strong> @ViewBag.PhoneNumber <br>
+                    <strong>Emergency Phone Number: </strong> @ViewBag.EmergencyPhoneNumber <br>
+                    <strong>Blood Type: </strong> @ViewBag.BloodTypeId <br>
+                    <strong>Year Of Birth: </strong> @ViewBag.YearOfBirth <br>
+                    <strong>Enter Count: </strong> @ViewBag.EnterCount <br>
+                    <strong>Trainer: </strong> @ViewBag.TrainerId <br>
+                    <strong>Created Date: </strong> @ViewBag.CreatedDate <br>
+                    <strong>Expiration Date: </strong> @ViewBag.MembershipExpirationDate <br>
+                    @{
+                        var leftDays = ViewBag.MembershipExpirationDate.Subtract(DateTime.Now).Days;
+                    }
+                    @if (leftDays <= 3)
                     {
-                        <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> @(leftDays) </a> <br>
+                        @if(leftDays > 0)
+                        {
+                            <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> @(leftDays) </a> <br>
+                        }
+                        else
+                        {
+                            <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> 0 </a> <br>
+                        }
                     }
                     else
                     {
-                        <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> 0 </a> <br>
+                        <strong>Left Days: </strong> <a style="background-color: green; color: white"> @(leftDays) </a> <br>
                     }
-                }
-                else
-                {
-                    <strong>Left Days: </strong> <a style="background-color: green; color: white"> @(leftDays) </a> <br>
-                }
+                </div>
             </div>
         </div>
-    </div>
-    @if(leftDays > 0 && leftDays <= 3)
-    {
-        <div class="alert alert-warning" style="text-align: center;" role="alert">
-            Your membership is about to expire. You can renew your membership anytime.
+        @if(leftDays > 0 && leftDays <= 3)
+        {
+            <div class="alert alert-warning" style="text-align: center;" role="alert">
+                Your membership is about to expire. You can renew your membership anytime.
+            </div>
+            <br />
+        }
+        @if(leftDays <= 0)
+        {
+            <div class="alert alert-danger" style="text-align: center;" role="alert">
+                Do not forget. You have to buy one of our membership packages to enter our gyms.
+            </div>
+            <br />
+        }
+        <div style="text-align: center;">
+            <a asp-route-id="@ViewBag.Id" asp-controller="Account" asp-action="UsernameChange" class="btn btn-outline-primary btn-lg">Change Username</a>
+            <a asp-route-id="@ViewBag.Id" asp-controller="Account" asp-action="EmailChange" class="btn btn-outline-primary btn-lg">Change Email</a>
+            <a asp-route-id="@ViewBag.Id" asp-controller="Account" asp-action="PasswordChange" class="btn btn-outline-primary btn-lg">Change Password</a>
+            <a asp-controller="Dashboard" asp-action="Payment" class="btn btn-outline-success btn-lg">Buy Membership</a>
         </div>
-    }
-    @if(leftDays <= 0)
-    {
-        <div class="alert alert-warning" style="text-align: center;" role="alert">
-            Do not forget. You have to buy one of our packages to enter our gyms.
-        </div>
-    }
-    <div style="text-align: center;">
-        <a asp-route-id="@ViewBag.Id" asp-controller="Account" asp-action="UsernameChange" class="btn btn-outline-primary btn-lg">Change Username</a>
-        <a asp-route-id="@ViewBag.Id" asp-controller="Account" asp-action="EmailChange" class="btn btn-outline-primary btn-lg">Change Password</a>
-        <a asp-route-id="@ViewBag.Id" asp-controller="Account" asp-action="PasswordChange" class="btn btn-outline-primary btn-lg">Change Password</a>
-        <a asp-controller="Dashboard" asp-action="Payment" class="btn btn-outline-success btn-lg">Buy Membership</a>
     </div>
 }
 
 @if (User.IsInRole("owner") || User.IsInRole("employee") || User.IsInRole("manager"))
 {
-    <h1 class="text-center">Dashboard</h1>
-    <div class="fs-5">
-        Welcome! <strong> @ViewBag.Name @ViewBag.Surname </strong> <br>
-    </div>
-    <br />
-    <div>
-        <a asp-area="" asp-controller="Account" asp-action="SignUp" class="btn btn-outline-success btn-lg">Add User</a>
-    </div>
-    <br />
-    @for (int i = 0; i < Model.Count; i++)
-    {
-        @if (i % 4 == 0)
+    <div class="container">
+        <h1 class="text-center">Dashboard</h1>
+        <div class="fs-5">
+            Welcome! <strong> @ViewBag.Name @ViewBag.Surname </strong> <br>
+        </div>
+        <br />
+        <div>
+            <a asp-area="" asp-controller="Account" asp-action="SignUp" class="btn btn-outline-success btn-lg">Add User</a>
+        </div>
+        <br />
+        @for (int i = 0; i < Model.Count; i++)
         {
-            if (i > 0)
+            @if (i % 4 == 0)
             {
-                @:</div>
+                if (i > 0)
+                {
+                    @:</div>
+                }
+                @:<div class="row">
             }
-            @:<div class="row">
-        }
-        <div class="col-md-6">
-            <div class="card mb-3 fs-6">
-                <div class="card-header">
-                    <strong>@Model[i].Name @Model[i].Surname </strong> <br>
-                    User Id: @Model[i].Id
-                </div>
-                <div class="card-body">
-                    <div class="card-title">
-                        <strong>Name: </strong> @Model[i].Name <strong>Surname: </strong> @Model[i].Surname <br>
-                        <strong>Username: </strong> @Model[i].UserName <br>
-                        <strong>Expiration Date: </strong> @Model[i].MembershipExpirationDate <br>
-                        @{
-                            var leftDays = Model[i].MembershipExpirationDate.Subtract(DateTime.Now).Days;
-                        }
-                        @if (leftDays <= 3)
-                        {
-                            @if(leftDays > 0)
+            <div class="col-md-6">
+                <div class="card mb-3 fs-6">
+                    <div class="card-header">
+                        <strong>@Model[i].Name @Model[i].Surname </strong> <br>
+                        User Id: @Model[i].Id
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">
+                            <strong>Name: </strong> @Model[i].Name <strong>Surname: </strong> @Model[i].Surname <br>
+                            <strong>Username: </strong> @Model[i].UserName <br>
+                            <strong>Expiration Date: </strong> @Model[i].MembershipExpirationDate <br>
+                            @{
+                                var leftDays = Model[i].MembershipExpirationDate.Subtract(DateTime.Now).Days;
+                            }
+                            @if (leftDays <= 3)
                             {
-                                <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> @(leftDays) </a> <br>
+                                @if(leftDays > 0)
+                                {
+                                    <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> @(leftDays) </a> <br>
+                                }
+                                else
+                                {
+                                    <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> 0 </a> <br>
+                                }
                             }
                             else
                             {
-                                <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> 0 </a> <br>
+                                <strong>Left Days: </strong> <a style="background-color: green; color: white"> @(leftDays) </a> <br>
                             }
-                        }
-                        else
-                        {
-                            <strong>Left Days: </strong> <a style="background-color: green; color: white"> @(leftDays) </a> <br>
-                        }
-                        @if (Model[i].IsActive == true)
-                        {
-                            <strong>Active State: </strong> <a style="color: green; font-size: 20px">@Model[i].IsActive </a>
-                        }
-                        else
-                        {
-                            <strong>Active State: </strong> <a style="color: red; font-size: 20px">@Model[i].IsActive </a>
-                        }
+                            @if (Model[i].IsActive == true)
+                            {
+                                <strong>Active State: </strong> <a style="color: green; font-size: 20px">@Model[i].IsActive </a>
+                            }
+                            else
+                            {
+                                <strong>Active State: </strong> <a style="color: red; font-size: 20px">@Model[i].IsActive </a>
+                            }
+                        </div>
                     </div>
+                    @if (User.IsInRole("owner") || User.IsInRole("employee") || User.IsInRole("manager"))
+                    {
+                        <div class="card-footer text-center">
+                            <a class="btn btn-outline-primary btn-lg m-1" href="/Dashboard/Detail/@Model[i].Id">Details</a>
+                            <a asp-route-id="@Model[i].Id" asp-controller="Account" asp-action="EditActiveState" class="btn btn-outline-warning btn-lg m-1">Active State</a>
+                        </div>
+                    }
                 </div>
-                @if (User.IsInRole("owner") || User.IsInRole("employee") || User.IsInRole("manager"))
-                {
-                    <div class="card-footer text-center">
-                        <a class="btn btn-outline-primary btn-lg m-1" href="/Dashboard/Detail/@Model[i].Id">Details</a>
-                        <a asp-route-id="@Model[i].Id" asp-controller="Account" asp-action="EditActiveState" class="btn btn-outline-warning btn-lg m-1">Active State</a>
-                    </div>
-                }
             </div>
-        </div>
-    }
-    @if (Model.Count > 0)
-    {
-        @:</div>
-    }
+        }
+        @if (Model.Count > 0)
+        {
+            @:</div>
+        }
+    </div>
 }
 
+
 @if(!User.Identity.IsAuthenticated){
-    <div class="text-center">
-        <strong>You must logged in to see that page.</strong>
+    <div class="container">
+        <div class="text-center">
+            <strong>You must logged in to see that page.</strong>
+        </div>
     </div>
 }
