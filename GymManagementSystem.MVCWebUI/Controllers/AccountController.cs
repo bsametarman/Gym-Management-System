@@ -481,8 +481,11 @@ namespace GymManagementSystem.MVCWebUI.Controllers
                 user.Name = model.Name;
                 user.Surname = model.Surname;
                 user.UserName = model.UserName;
-                user.Password = model.Password;
-                user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.Password);
+                if(user.Password != model.Password)
+                {
+                    user.Password = model.Password;
+                    user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.Password);
+                }
                 user.Email = model.Email;
                 user.Address = model.Address;
                 user.PhoneNumber = model.PhoneNumber;
