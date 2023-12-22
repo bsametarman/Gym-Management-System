@@ -65,6 +65,15 @@
                     {
                         <strong>Left Days: </strong> <a style="background-color: green; color: white"> @(leftDays) </a> <br>
                     }
+                    @if (ViewBag.IsPassActive)
+                    {
+                        <strong>Gym Pass: </strong> <a style="background-color: green; color: white"> Active </a> <br>
+                    }
+                    else
+                    {
+                        <strong>Gym Pass: </strong> <a style="background-color: yellow; color: red;"> Passive </a> <br>
+                    }
+
                 </div>
             </div>
         </div>
@@ -142,6 +151,14 @@
                             {
                                 <strong>Left Days: </strong> <a style="background-color: green; color: white"> @(leftDays) </a> <br>
                             }
+                            @if (Model[i].IsPassActive)
+                            {
+                                <strong>Gym Pass: </strong> <a style="background-color: green; color: white"> Active </a> <br>
+                            }
+                            else
+                            {
+                                <strong>Gym Pass: </strong> <a style="background-color: yellow; color: red;"> Passive </a> <br>
+                            }
                             @if (Model[i].IsActive == true)
                             {
                                 <strong>Active State: </strong> <a style="color: green; font-size: 20px">@Model[i].IsActive </a>
@@ -156,7 +173,7 @@
                     {
                         <div class="card-footer text-center">
                             <a class="btn btn-outline-primary btn-lg m-1" href="/Dashboard/Detail/@Model[i].Id">Details</a>
-                            <a asp-route-id="@Model[i].Id" asp-controller="Account" asp-action="EditActiveState" class="btn btn-outline-warning btn-lg m-1">Active State</a>
+                            <a asp-route-id="@Model[i].Id" asp-controller="Account" asp-action="ChangeUserGymPass" class="btn btn-outline-warning btn-lg m-1">Change Gym Pass</a>
                         </div>
                     }
                 </div>

@@ -58,6 +58,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
                         if((user.MembershipExpirationDate - DateTime.Now).Days <= 0)
                         {
                             user.IsPassActive = false;
+                            user.PaymentStatusId = 2;
                             await _userManager.UpdateAsync(user);
                         }
 
@@ -289,11 +290,12 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             else
             {
                 user.IsActive = true;
-                user.IsPassActive = true;
+                if((user.MembershipExpirationDate - DateTime.Now).Days > 0)
+                    user.IsPassActive = true;
             }
 
             await _userManager.UpdateAsync(user);
-            return RedirectToAction("Index", "Dashboard");
+            return RedirectToAction("Detail", "Dashboard", new { id = user.Id });
         }
 
         public async Task<IActionResult> DeleteUser(string id)
@@ -358,9 +360,24 @@ namespace GymManagementSystem.MVCWebUI.Controllers
 
             user.LastPaymentDate = user.LastPaymentDate.AddDays(dayToExtend);
             if((DateTime.Now - user.MembershipExpirationDate).Days >= 0)
+            {
                 user.MembershipExpirationDate = DateTime.Now.AddDays(dayToExtend);
+                user.PaymentStatusId = 1;
+                user.IsPassActive = true;
+            }
             else
+            {
                 user.MembershipExpirationDate = user.MembershipExpirationDate.AddDays(dayToExtend);
+                user.PaymentStatusId = 1;
+                user.IsPassActive = true;
+            }
+
+            if ((DateTime.Now - user.MembershipExpirationDate).Days >= 0)
+            {
+                user.PaymentStatusId = 2;
+                user.IsPassActive = false;
+            }
+
             await _userManager.UpdateAsync(user);
 
             return RedirectToAction("Index", "Dashboard");
@@ -499,6 +516,34 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             }
 
             return RedirectToAction("Detail", "Dashboard", new {id = model.Id});
+        }
+
+        public async Task<IActionResult> ChangeUserGymPass(string id)
+        {
+            if (User.IsInRole("owner") || User.IsInRole("manager"))
+            {
+                var user = await _userManager.FindByIdAsync(id);
+
+                if (user == null)
+                {
+                    return View("Not Found");
+                }
+
+                if((user.MembershipExpirationDate - DateTime.Now).Days <= 0)
+                {
+                    user.MembershipExpirationDate = DateTime.Now.AddDays(3);
+                    user.PaymentStatusId = 1;
+                }
+                    
+                user.IsPassActive = user.IsPassActive ? false : true;
+
+                await _userManager.UpdateAsync(user);
+                return RedirectToAction("Index", "Dashboard");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         public async Task<IActionResult> LogOut()

@@ -44,6 +44,14 @@ else{
                         {
                             <strong>Payment Status: </strong> <a style="background-color: yellow; color: red;"> @Model.PaymentStatusName </a> <br>
                         }
+                        @if (Model.IsPassActive)
+                        {
+                            <strong>Gym Pass: </strong> <a style="background-color: green; color: white;"> Active </a> <br>
+                        }
+                        else
+                        {
+                            <strong>Gym Pass: </strong> <a style="background-color: yellow; color: red;"> Passive </a> <br>
+                        }
                         <strong>Last Payment Date: </strong> @Model.LastPaymentDate <br>
                         <strong>Expiration Date: </strong> @Model.MembershipExpirationDate <br>
                         @if ((Model.MembershipExpirationDate.Subtract(DateTime.Now).Days) <= 3)
@@ -70,7 +78,8 @@ else{
                         <a asp-route-id="@Model.Id" asp-controller="Account" asp-action="EditActiveState" class="btn btn-outline-warning btn-lg m-1">Active State</a>
                         @if(User.IsInRole("owner") || User.IsInRole("manager"))
                         {
-                            <a asp-route-id="@Model.Id" asp-controller="Account" asp-action="DeleteUser" class="btn btn-outline-danger btn-lg m-1">Delete</a>   
+                            <a asp-route-id="@Model.Id" asp-controller="Account" asp-action="DeleteUser" class="btn btn-outline-danger btn-lg m-1">Delete</a>
+                            <a asp-route-id="@Model.Id" asp-controller="Account" asp-action="ChangeUserGymPass" class="btn btn-outline-warning btn-lg m-1">Change Gym Pass</a>   
                         }
                         <a asp-route-id="@Model.Id" asp-controller="Account" asp-action="ExtendTime" class="btn btn-outline-success btn-lg m-1">Extend Time</a>
                         @if (User.IsInRole("owner"))

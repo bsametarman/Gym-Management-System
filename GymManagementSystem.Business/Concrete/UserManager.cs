@@ -112,8 +112,8 @@ namespace GymManagementSystem.Business.Concrete
             {
                 if ((user.MembershipExpirationDate - DateTime.Now).Days < 0)
                 {
-                    user.IsActive = false;
                     user.IsPassActive= false;
+                    user.PaymentStatusId = 2;
                     _userDal.Update(user);
 
                     return new ErrorDataResult<CheckUser>("Your membership is expired. Please renew your membership.");

@@ -44,6 +44,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
                 ViewBag.TrainerId = viewBagUser.Result.TrainerId;
                 ViewBag.CreatedDate = viewBagUser.Result.CreatedDate;
                 ViewBag.MembershipExpirationDate = viewBagUser.Result.MembershipExpirationDate;
+                ViewBag.IsPassActive = viewBagUser.Result.IsPassActive;
             }
             if (User.IsInRole("owner"))
             {
