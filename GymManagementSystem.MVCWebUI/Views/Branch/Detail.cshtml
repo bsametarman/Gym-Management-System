@@ -1,7 +1,7 @@
 ﻿@model GymManagementSystem.Entities.Concrete.Branch
 
 @{
-    ViewData["Title"] = Model.Name + "Branch";
+    ViewData["Title"] = Model.Name;
 }
 
 @section WithoutContainer{
@@ -25,30 +25,167 @@
 
 <br />
 
-<div class="container">
-    <div class="card flex-md-row mb-4 box-shadow h-md-250">
-        <div class="card-body d-flex flex-column align-items-start">
-            <strong class="d-inline-block mb-2 text-primary">@Model.Name</strong>
-            <h3 class="mb-0">
-                @Model.Name / @Model.Country
-            </h3>
-            <div class="mb-1 text-muted">
-                @Model.Address <br />
-                @Model.PhoneNumber <br />
-                @Model.Email
+@if(!User.IsInRole("owner") && !User.IsInRole("manager"))
+{
+    <div class="container">
+        <div class="card flex-md-row mb-4 box-shadow h-md-250">
+            <div class="card-body d-flex flex-column align-items-start">
+                <strong class="d-inline-block mb-2 text-primary">@Model.Name</strong>
+                <h3 class="mb-0">
+                    @Model.Name / @Model.Country
+                </h3>
+                <div class="mb-1 text-muted">
+                    @Model.Address <br />
+                    @Model.PhoneNumber <br />
+                    @Model.Email
+                </div>
+                <br />
+                <p class="card-text mb-auto" style="font-size: 20px;">
+                    @Model.Description <br /> <br />
+                    <strong class="d-inline-block mb-2 text-primary">Capacity:</strong> @Model.Capacity Person<br />
+                    <strong class="d-inline-block mb-2 text-primary">Number of Members:</strong> @Model.NumberOfMembers Person <br />
+                    <strong class="d-inline-block mb-2 text-primary">Size of the gym (square meters):</strong> @Model.SquareMeters <br />
+                    <strong class="d-inline-block mb-2 text-primary">Number of Tools:</strong> @Model.NumberOfTools <br /> <br />
+                    <strong class="d-inline-block mb-2 text-primary">Weekdays working hours:</strong> <b> @Model.WeekdaysOpeningTime - @Model.WeekdaysClosingTime </b> <br />
+                    <strong class="d-inline-block mb-2 text-primary">Weekends working hours:</strong> <b> @Model.WeekendsOpeningTime - @Model.WeekendsClosingTime </b> <br />
+                </p>
+                <br>
             </div>
-            <br />
-            <p class="card-text mb-auto" style="font-size: 20px;">
-                @Model.Description <br /> <br />
-                <strong class="d-inline-block mb-2 text-primary">Capacity:</strong> @Model.Capacity Person<br />
-                <strong class="d-inline-block mb-2 text-primary">Number of Members:</strong> @Model.NumberOfMembers Person <br />
-                <strong class="d-inline-block mb-2 text-primary">Size of the gym (square meters):</strong> @Model.SquareMeters <br />
-                <strong class="d-inline-block mb-2 text-primary">Number of Tools:</strong> @Model.NumberOfTools <br /> <br />
-                <strong class="d-inline-block mb-2 text-primary">Weekdays working hours:</strong> <b> @Model.WeekdaysOpeningTime - @Model.WeekdaysClosingTime </b> <br />
-                <strong class="d-inline-block mb-2 text-primary">Weekends working hours:</strong> <b> @Model.WeekendsOpeningTime - @Model.WeekendsClosingTime </b> <br />
-            </p>
-            <br>
+            <img class="card-img-right flex-auto d-none d-md-block" style="width: 40%;" src="https://media.istockphoto.com/id/122152402/photo/the-outside-of-a-sports-center-building.jpg?s=612x612&w=0&k=20&c=nyTeBGvKoilqzcksIYE79OsYtrIJmCnUzJrei2cZryE=" alt="Best Gym">
         </div>
-        <img class="card-img-right flex-auto d-none d-md-block" style="width: 40%;" src="https://media.istockphoto.com/id/122152402/photo/the-outside-of-a-sports-center-building.jpg?s=612x612&w=0&k=20&c=nyTeBGvKoilqzcksIYE79OsYtrIJmCnUzJrei2cZryE=" alt="Best Gym">
     </div>
-</div>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3 fs-6">
+                    <div class="card-header">
+                        <strong>@Model.Name</strong> <br>
+                        Branch Id: @Model.Id
+                    </div>
+                    <div class="card-body d-flex flex-column align-items-start">
+                        <strong class="d-inline-block mb-2 text-primary">@Model.Name</strong>
+                        <h3 class="mb-0">
+                            @Model.Name / @Model.Country
+                        </h3>
+                        <div class="mb-1 text-muted">
+                            @Model.Address <br />
+                            @Model.PhoneNumber <br />
+                            @Model.Email
+                        </div>
+                        <br />
+                        <p class="card-text mb-auto" style="font-size: 20px;">
+                            @Model.Description <br /> <br />
+                            <strong class="d-inline-block mb-2 text-primary">Capacity:</strong> @Model.Capacity Person<br />
+                            <strong class="d-inline-block mb-2 text-primary">Number of Members:</strong> @Model.NumberOfMembers Person <br />
+                            <strong class="d-inline-block mb-2 text-primary">Size of the gym (square meters):</strong> @Model.SquareMeters <br />
+                            <strong class="d-inline-block mb-2 text-primary">Number of Tools:</strong> @Model.NumberOfTools <br /> <br />
+                            <strong class="d-inline-block mb-2 text-primary">Weekdays working hours:</strong> <b> @Model.WeekdaysOpeningTime - @Model.WeekdaysClosingTime </b> <br />
+                            <strong class="d-inline-block mb-2 text-primary">Weekends working hours:</strong> <b> @Model.WeekendsOpeningTime - @Model.WeekendsClosingTime </b> <br />
+                        </p>
+                        <br>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a asp-route-id="@Model.Id" asp-controller="Branch" asp-action="Delete" class="btn btn-outline-danger btn-lg m-1">Delete</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3 fs-6">
+                    <div class="card-header">
+                        <strong>Change Informations</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">
+                            <form asp-controller="Branch" asp-action="ChangeBranchInfo" method="post">
+                                <input type="hidden" asp-for="@Model.Id" />
+                                <input type="hidden" asp-for="@Model.IsActive" />
+                                <div class="form-group">
+                                    <label asp-for="@Model.Name">Name</label>
+                                    <input type="text" asp-for="@Model.Name" class="form-control" placeholder="Gym name">
+                                </div> <br>
+                                <div class="form-group">
+                                    <label asp-for="@Model.Address">Address</label>
+                                    <input type="text" asp-for="@Model.Address" class="form-control" placeholder="Address">
+                                </div> <br>
+                                <div class="form-group">
+                                    <label asp-for="@Model.City">City</label>
+                                    <input type="text" asp-for="@Model.City" class="form-control" placeholder="City">
+                                </div> <br>
+                                <div class="form-group">
+                                    <label asp-for="@Model.Country">Country</label>
+                                    <input type="text" asp-for="@Model.Country" class="form-control" placeholder="Country">
+                                </div> <br>
+                                <div class="form-group">
+                                    <label asp-for="@Model.PhoneNumber">Phone Number</label>
+                                    <input type="text" asp-for="@Model.PhoneNumber" class="form-control" placeholder="(555)-444-33-22">
+                                </div> <br>
+                                <div class="form-group">
+                                    <label asp-for="@Model.Email">Email address</label>
+                                    <input type="email" asp-for="@Model.Email" class="form-control" placeholder="Email">
+                                </div> <br>
+                                <div class="form-group">
+                                    <label asp-for="@Model.Capacity">Capacity</label>
+                                    <input type="text" asp-for="@Model.Capacity" class="form-control" placeholder="Capacity">
+                                </div> <br>
+                                <div class="form-group">
+                                    <label asp-for="@Model.SquareMeters">Square Meters</label>
+                                    <input type="text" asp-for="@Model.SquareMeters" class="form-control" placeholder="Square Meters">
+                                </div> <br>
+                                <div class="form-group">
+                                    <label asp-for="@Model.NumberOfTools">Number of Tools</label>
+                                    <input type="text" asp-for="@Model.NumberOfTools" class="form-control" placeholder="Number of Tools">
+                                </div> <br>
+                                <div class="form-group">
+                                    <label asp-for="@Model.NumberOfEmployee">Number of Employee</label>
+                                    <input type="text" asp-for="@Model.NumberOfEmployee" class="form-control" placeholder="Number of Employee">
+                                </div> <br>
+                                <div class="form-group">
+                                    <label asp-for="@Model.WeekdaysOpeningTime">Weekdays Opening Time</label>
+                                    <input type="text" asp-for="@Model.WeekdaysOpeningTime" class="form-control" placeholder="Weekdays Opening Tim">
+                                </div><br>
+                                <div class="form-group">
+                                    <label asp-for="@Model.WeekdaysClosingTime">Weekdays Closing Time</label>
+                                    <input type="text" asp-for="@Model.WeekdaysClosingTime" class="form-control" placeholder="Weekdays Closing Time">
+                                </div><br>
+                                <div class="form-group">
+                                    <label asp-for="@Model.WeekendsOpeningTime">Weekends Opening Time</label>
+                                    <input type="text" asp-for="@Model.WeekendsOpeningTime" class="form-control" placeholder="Weekends Opening Time">
+                                </div><br>
+                                <div class="form-group">
+                                    <label asp-for="@Model.WeekendsClosingTime">Weekends Closing Time</label>
+                                    <input type="text" asp-for="@Model.WeekendsClosingTime" class="form-control" placeholder="Weekends Closing Time">
+                                </div><br>
+                                <div class="form-group">
+                                    <label asp-for="@Model.Description">Description</label>
+                                    <input type="text" asp-for="@Model.Description" class="form-control" placeholder="Description">
+                                </div> <br>
+                                @if (ViewBag.errors != null)
+                                {
+                                    <div class="alert alert-danger" role="alert">
+                                        @if (ViewBag.errors.Length > 1)
+                                        {
+                                            @foreach (var error in ViewBag.errors)
+                                            {
+                                                @error <br />
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @ViewBag.errors[0]
+                                        }
+                                    </div>
+                                }
+                                <div class="text-center">
+                                    <button class="btn btn-lg btn-outline-success btn-block" style="margin-top: 5%;" type="submit">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

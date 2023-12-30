@@ -38,7 +38,7 @@
                     <h1>@Model[i].Name</h1>
                     <p>@Model[i].Address</p>
                     <p>@Model[i].Description</p>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button">See more</a></p>
+                    <p><a asp-route-id="@Model[i].Id" asp-controller="Branch" asp-action="Detail" class="btn btn-primary btn-lg m-1">See more</a></p>
                   </div>
                 </div>
             </div>

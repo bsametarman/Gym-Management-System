@@ -49,14 +49,18 @@ namespace GymManagementSystem.MVCWebUI.Tools.Validation
 
 			var branches = _branchService.GetAll();
 
-			if (email == null)
+            foreach (var branch in branches.Data)
+                if (branch.Email == email)
+                {
+                    errors.Add(new ValidationError { Title = "Invalid Email", Description = "Email has taken." });
+                    break;
+                }
+
+            if (email == null)
 				errors.Add(new ValidationError { Title = "Invalid email", Description = "Email cannot be null." });
 			else if (!(new EmailAddressAttribute().IsValid(email)))
 				errors.Add(new ValidationError { Title = "Invalid email", Description = "Email address is not valid." });
 
-			foreach (var branch in branches.Data)
-				if (branch.Email == email)
-					errors.Add(new ValidationError { Title = "Invalid Email", Description = "Email has taken." });
 
             if (errors.Count > 0)
                 return errors;

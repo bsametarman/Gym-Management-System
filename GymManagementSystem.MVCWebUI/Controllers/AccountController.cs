@@ -534,11 +534,11 @@ namespace GymManagementSystem.MVCWebUI.Controllers
                     return View("Not Found");
                 }
 
-                if((user.MembershipExpirationDate - DateTime.Now).Days <= 0)
-                {
-                    user.MembershipExpirationDate = DateTime.Now.AddDays(3);
-                    user.PaymentStatusId = 1;
-                }
+                //if((user.MembershipExpirationDate - DateTime.Now).Days <= 0)
+                //{
+                //    user.MembershipExpirationDate = DateTime.Now.AddDays(3);
+                //    user.PaymentStatusId = 1;
+                //}
                     
                 user.IsPassActive = user.IsPassActive ? false : true;
 
