@@ -1,0 +1,159 @@
+﻿@model GymManagementSystem.Entities.Concrete.Branch
+@{
+	ViewBag.Title = "Add Branch";
+}
+
+@if (!User.IsInRole("member") && !User.IsInRole("employee"))
+{
+	<div class="container">
+	<div class="py-5 text-center">
+		<h2>Add Branch</h2>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 order-md-1">
+			<h4 class="mb-3">Branch Informations</h4>
+			<form method="post" asp-action="AddBranch">
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label asp-for="Name">Name</label>
+						<input asp-for="Name" class="form-control" value="" required>
+						<div class="invalid-feedback">
+							Name is required.
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label asp-for="Address">Address</label>
+						<input asp-for="Address" class="form-control" value="" required>
+						<div class="invalid-feedback">
+							Address is required.
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label asp-for="PhoneNumber">Phone Number</label>
+						<input asp-for="PhoneNumber" class="form-control" value="" required>
+						<div class="invalid-feedback">
+							Phone number is required.
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label asp-for="Email">Email<span class="text-muted"></span></label>
+						<input asp-for="Email" class="form-control">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label asp-for="City">City</label>
+						<input asp-for="City" class="form-control" value="" required>
+						<div class="invalid-feedback">
+							City is required.
+						</div>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<label asp-for="Country">Country<span class="text-muted"></span></label>
+						<input asp-for="Country" class="form-control">
+						<div class="invalid-feedback">
+							Please enter a valid country.
+						</div>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<label asp-for="SquareMeters">Square Meters<span class="text-muted"></span></label>
+						<input asp-for="SquareMeters" class="form-control">
+						<div class="invalid-feedback">
+							Please enter a valid square meters.
+						</div>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<label asp-for="WeekdaysOpeningTime">Weekdays Opening Time<span class="text-muted"></span></label>
+						<input asp-for="WeekdaysOpeningTime" class="form-control">
+						<div class="invalid-feedback">
+							Please enter a valid opening time.
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label asp-for="WeekdaysClosingTime">Weekdays Closing Time<span class="text-muted"></span></label>
+						<input asp-for="WeekdaysClosingTime" class="form-control">
+						<div class="invalid-feedback">
+							Please enter a valid closing time.
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label asp-for="WeekendsOpeningTime">Weekends Opening Time<span class="text-muted"></span></label>
+						<input asp-for="WeekendsOpeningTime" class="form-control">
+						<div class="invalid-feedback">
+							Please enter a valid opening time.
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label asp-for="WeekendsClosingTime">Weekends Closing Time<span class="text-muted"></span></label>
+						<input asp-for="WeekendsClosingTime" class="form-control">
+						<div class="invalid-feedback">
+							Please enter a valid closing time.
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label asp-for="Capacity">Capacity<span class="text-muted"></span></label>
+						<input asp-for="Capacity" class="form-control">
+						<div class="invalid-feedback">
+							Please enter a valid capacity.
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label asp-for="NumberOfTools">Number of Tools<span class="text-muted"></span></label>
+						<input asp-for="NumberOfTools" class="form-control">
+						<div class="invalid-feedback">
+							Please enter a valid number of tools.
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label asp-for="NumberOfEmployee">Number of Employee<span class="text-muted"></span></label>
+						<input asp-for="NumberOfEmployee" class="form-control">
+						<div class="invalid-feedback">
+							Please enter a valid number of employee.
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label asp-for="Description">Description<span class="text-muted"></span></label>
+						<input asp-for="Description" class="form-control">
+						<div class="invalid-feedback">
+							Please enter a valid description.
+						</div>
+					</div>
+				</div>
+				@if (ViewBag.errors != null)
+				{
+						<div class="alert alert-danger" role="alert">
+						@if (ViewBag.errors.Count > 1)
+						{
+							@foreach (var error in ViewBag.errors)
+							{
+								@error <br />
+							}
+						}
+						else
+						{
+							@ViewBag.errors[0]
+						}
+						</div>
+				}
+				<div class="d-flex justify-content-center">
+					<button class="btn btn-outline-success btn-lg btn-block" style="width: 250px; height: 75px" type="submit">Save Branch</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+}
+else
+{
+	<div>
+		Unauthorized
+	</div>	
+}
