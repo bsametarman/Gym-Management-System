@@ -25,27 +25,6 @@ namespace GymManagementSystem.MVCWebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            if (User.IsInRole("member"))
-            {
-                var userId = _userManager.GetUserId(HttpContext.User);
-                var viewBagUser = _userManager.FindByIdAsync(userId);
-                ViewBag.Id = userId;
-                ViewBag.Name = viewBagUser.Result.Name;
-                ViewBag.Surname = viewBagUser.Result.Surname;
-                ViewBag.Username = viewBagUser.Result.UserName;
-                ViewBag.IdentityNumber = viewBagUser.Result.IdentityNumber;
-                ViewBag.Address = viewBagUser.Result.Address;
-                ViewBag.Email = viewBagUser.Result.Email;
-                ViewBag.PhoneNumber = viewBagUser.Result.PhoneNumber;
-                ViewBag.EmergencyPhoneNumber = viewBagUser.Result.EmergencyPhoneNumber;
-                ViewBag.BloodTypeId = viewBagUser.Result.BloodTypeId;
-                ViewBag.YearOfBirth = viewBagUser.Result.YearOfBirth;
-                ViewBag.EnterCount = viewBagUser.Result.EnterCount;
-                ViewBag.TrainerId = viewBagUser.Result.TrainerId;
-                ViewBag.CreatedDate = viewBagUser.Result.CreatedDate;
-                ViewBag.MembershipExpirationDate = viewBagUser.Result.MembershipExpirationDate;
-                ViewBag.IsPassActive = viewBagUser.Result.IsPassActive;
-            }
             if (User.IsInRole("owner"))
             {
                 var userId = _userManager.GetUserId(HttpContext.User);
@@ -110,6 +89,22 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             return View();
         }
 
+        public IActionResult Account()
+        {
+            if (User.IsInRole("member"))
+            {
+                var userId = _userManager.GetUserId(HttpContext.User);
+
+                var user = _userService.GetUserWithDetails(userId);
+                if (user != null)
+                    return View(user.Data);
+            }
+            else
+                return RedirectToAction("Index", "Dashboard");
+
+            return View();
+        }
+
         public IActionResult Payment()
         {
             var memberships = _membershipService.GetAll();
@@ -146,7 +141,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
                     await _userManager.UpdateAsync(user);
                 }
             }
-            return RedirectToAction("Index", "Dashboard");
+            return RedirectToAction("Account", "Dashboard");
         }
 
         public IActionResult Detail(string id)

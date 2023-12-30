@@ -1,0 +1,110 @@
+﻿@model GymManagementSystem.Entities.ComplexTypes.AppUserDetailed
+
+@{
+	ViewBag.Title = "My Account";
+}
+
+<script src="~/js/slidingtext.js"></script>
+<link href="~/css/corousel.css" rel="stylesheet"/>
+<link href="~/css/slidingtext.css" rel="stylesheet"/>
+
+@section WithoutContainer{
+}
+
+@if (User.IsInRole("member"))
+{
+    <div class="sliding-text">
+        <marquee behavior="scroll" direction="left">
+            <span id="text-sliding">DISCOUNT! Subscribe NOW!</span>
+        </marquee>
+    </div>
+
+    <br />
+
+    <div class="alert alert-warning" style="text-align: center; font-size: 18px; font-weight: bold;" role="alert">
+        Our memberships give access to all branches.
+    </div>
+
+    <br />
+    <div class="container">
+        <h1 class="text-center">My Account</h1>
+        <br />
+
+        <div class="card mb-3 text-center fs-5">
+            <div class="card-header">
+                <strong>@Model.Name @Model.Surname </strong> <br>
+            </div>
+            <div class="card-body">
+                <div class="card-title">
+                    <strong>Username: </strong> @Model.UserName<br>
+                    <strong>Identity Number: </strong> @Model.IdentityNumber <br>
+                    <strong>Address: </strong> @Model.Address <br>
+                    <strong>Email: </strong> @Model.Email <br>
+                    <strong>Phone Number: </strong> @Model.PhoneNumber <br>
+                    <strong>Emergency Phone Number: </strong> @Model.EmergencyPhoneNumber <br>
+                    <strong>Blood Type: </strong> @Model.BloodTypeName <br>
+                    <strong>Year Of Birth: </strong> @Model.YearOfBirth <br>
+                    <strong>Enter Count: </strong> @Model.EnterCount <br>
+                    <strong>Trainer: </strong> @Model.TrainerName <br>
+                    <strong>Created Date: </strong> @Model.CreatedDate <br>
+                    <strong>Expiration Date: </strong> @Model.MembershipExpirationDate <br>
+                    @{
+                        var leftDays = Model.MembershipExpirationDate.Subtract(DateTime.Now).Days;
+                    }
+                    @if (leftDays <= 3)
+                    {
+                        @if (leftDays > 0)
+                        {
+                            <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> @(leftDays) </a> <br>
+                        }
+                        else
+                        {
+                            <strong>Left Days: </strong> <a style="background-color: yellow; color: red;"> 0 </a> <br>
+                        }
+                    }
+                    else
+                    {
+                        <strong>Left Days: </strong> <a style="background-color: green; color: white"> @(leftDays) </a> <br>
+                    }
+                    @if (Model.IsPassActive)
+                    {
+                        <strong>Gym Pass: </strong> <a style="background-color: green; color: white"> Active </a> <br>
+                    }
+                    else
+                    {
+                        <strong>Gym Pass: </strong> <a style="background-color: yellow; color: red;"> Passive </a> <br>
+                    }
+                </div>
+            </div>
+        </div>
+        @if (leftDays > 0 && leftDays <= 3)
+        {
+            <div class="alert alert-warning" style="text-align: center;" role="alert">
+                Your membership is about to expire. You can renew your membership anytime.
+            </div>
+            <br />
+        }
+        @if (leftDays <= 0)
+        {
+            <div class="alert alert-danger" style="text-align: center;" role="alert">
+                Do not forget. You have to buy one of our membership packages to enter our gyms.
+            </div>
+            <br />
+        }
+        <div style="text-align: center;">
+            <a asp-route-id="@Model.Id" asp-controller="Account" asp-action="UsernameChange" class="btn btn-outline-primary btn-lg">Change Username</a>
+            <a asp-route-id="@Model.Id" asp-controller="Account" asp-action="EmailChange" class="btn btn-outline-primary btn-lg">Change Email</a>
+            <a asp-route-id="@Model.Id" asp-controller="Account" asp-action="PasswordChange" class="btn btn-outline-primary btn-lg">Change Password</a>
+            <a asp-controller="Dashboard" asp-action="Payment" class="btn btn-outline-success btn-lg">Buy Membership</a>
+        </div>
+    </div>
+}
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <div class="container">
+        <div class="text-center">
+            <strong>You must logged in to see that page.</strong>
+        </div>
+    </div>
+}

@@ -209,7 +209,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
 
             SendUserToEmail(user);
 
-            return RedirectToAction("Index", "Dashboard");
+            return RedirectToAction("Account", "Dashboard");
         }
 
         public IActionResult PasswordChange(string id)
@@ -253,7 +253,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
 
                 SendUserToEmail(user);
 
-                return RedirectToAction("Index", "Dashboard");
+                return RedirectToAction("Account", "Dashboard");
             }
 
             return View(passwordChangeViewModel);
@@ -275,7 +275,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             user.UserName = username;
             await _userManager.UpdateAsync(user);
 
-            return RedirectToAction("Index", "Dashboard");
+            return RedirectToAction("Account", "Dashboard");
         }
 
         public async Task<IActionResult> EditActiveState(string id)

@@ -50,8 +50,15 @@
                     <div class="nav-item dropdown" style="margin-right: 3%;">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">My Account</a>
                         <ul class="dropdown-menu">
-                            <li><a asp-area="" asp-controller="Dashboard" asp-action="Index" id="dashboard" class="dropdown-item rounded-0">Dashboard</a></li>
-                            <li><a asp-area="" asp-controller="Account" asp-action="LogOut" id="logout" class="dropdown-item rounded-0" style="color: crimson;">Logout</a></li>
+                            @if (User.IsInRole("member"))
+                            {
+                                <li><a asp-area="" asp-controller="Dashboard" asp-action="Account" id="dashboard" class="dropdown-item rounded-0">Dashboard</a></li>
+                            }
+                            else
+                            {
+                                <li><a asp-area="" asp-controller="Dashboard" asp-action="Index" id="dashboard" class="dropdown-item rounded-0">Dashboard</a></li>
+                            }
+                            <li><a asp-area="" asp-controller="Account" asp-action="LogOut" id="logout" class="dropdown-item rounded-0" style="color: crimson;">Logout</a></li>   
                         </ul>
                     </div>
                     @*<div style="margin-right: 1%">
