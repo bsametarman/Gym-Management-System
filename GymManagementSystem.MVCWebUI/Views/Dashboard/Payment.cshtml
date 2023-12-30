@@ -123,10 +123,13 @@
                     {
                         @foreach (var membership in ViewBag.Memberships)
                         {
-                            <div class="custom-control custom-radio">
-                                <input asp-for="MembershipTypeId" id="@membership.Id" name="MembershipTypeId" type="radio" value="@membership.Id" class="custom-control-input" onclick="choosePackage('@membership.Id', '@membership.Name', '@membership.Price')">
-                                <label class="custom-control-label">@membership.Name</label>
-                            </div>
+                            if(membership.Id != 4)
+                            {
+                                <div class="custom-control custom-radio">
+                                    <input asp-for="MembershipTypeId" id="@membership.Id" name="MembershipTypeId" type="radio" value="@membership.Id" class="custom-control-input" onclick="choosePackage('@membership.Id', '@membership.Name', '@membership.Price')">
+                                    <label class="custom-control-label">@membership.Name</label>
+                                </div>
+                            }
                         }
                     }
                 </div>

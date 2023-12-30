@@ -69,7 +69,7 @@
 						<div class="invalid-feedback">
 							Please select a valid gender.
 						</div>
-						</div>
+					</div>
 
 					<div class="col-md-6 mb-3">
 						<label asp-for="YearOfBirth">Birth Year<span class="text-muted"></span></label>
@@ -86,9 +86,29 @@
 						<input asp-for="EmergencyPhoneNumber" class="form-control">
 					</div>
 				</div>
-				<div class="mb-3">
-					<label asp-for="Address">Address<span class="text-muted"></span></label>
-					<input asp-for="Address" class="form-control">
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label asp-for="Address">Address<span class="text-muted"></span></label>
+						<input asp-for="Address" class="form-control">
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<label asp-for="BloodTypeId">Blood Type</label>
+						<select asp-for="BloodTypeId" class="custom-select d-block w-100" required>
+							<option value="">Blood Type</option>
+							<option value="1">A Rh +</option>
+							<option value="2">A Rh -</option>
+							<option value="4">B Rh +</option>
+							<option value="3">B Rh -</option>
+							<option value="5">AB Rh +</option>
+							<option value="6">AB Rh -</option>
+							<option value="7">0 Rh +</option>
+							<option value="8">0 Rh -</option>
+						</select>
+						<div class="invalid-feedback">
+							Please select a valid blood type.
+						</div>
+					</div>
 				</div>
 				@if(ViewBag.errors != null)
 				{
