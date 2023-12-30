@@ -24,8 +24,10 @@ namespace GymManagementSystem.MVCWebUI.Tools.Validation
 			else if (name.Length < 3 || name.Length > 50)
 				errors.Add(new ValidationError{ Title = "Branch name length is wrong", Description = "Branch name must be between 3 and 50 characters." });
 
-			return errors;
-		}
+            if (errors.Count > 0)
+                return errors;
+            return null;
+        }
 
         public List<ValidationError> CheckDescription(string description)
         {
@@ -36,8 +38,10 @@ namespace GymManagementSystem.MVCWebUI.Tools.Validation
 			else if (description.Length < 10 || description.Length > 500)
 				errors.Add(new ValidationError{ Title = "Description length is wrong", Description = "Description must be between 10 and 500 characters." });
 
-			return errors;
-		}
+            if (errors.Count > 0)
+                return errors;
+            return null;
+        }
 
         public List<ValidationError> CheckEmail(string email)
         {
@@ -54,8 +58,10 @@ namespace GymManagementSystem.MVCWebUI.Tools.Validation
 				if (branch.Email == email)
 					errors.Add(new ValidationError { Title = "Invalid Email", Description = "Email has taken." });
 
-			return errors;
-		}
+            if (errors.Count > 0)
+                return errors;
+            return null;
+        }
 
         public List<ValidationError> CheckAddress(string address)
         {
@@ -66,8 +72,10 @@ namespace GymManagementSystem.MVCWebUI.Tools.Validation
 			else if (address.Length < 10 || address.Length > 500)
 				errors.Add(new ValidationError { Title = "Address length is wrong", Description = "Address must be between 10 and 500 characters." });
 
-			return errors;
-		}
+            if (errors.Count > 0)
+                return errors;
+            return null;
+        }
 
 		public List<ValidationError> CheckPhoneNumber(string phoneNumber)
 		{
@@ -86,8 +94,10 @@ namespace GymManagementSystem.MVCWebUI.Tools.Validation
 				if (branch.PhoneNumber == phoneNumber)
 					errors.Add(new ValidationError { Title = "Invalid Email", Description = "Email has taken." });
 
-			return errors;
-		}
+            if (errors.Count > 0)
+                return errors;
+            return null;
+        }
 
 		public List<ValidationError> CheckCity(string city)
 		{
@@ -98,8 +108,10 @@ namespace GymManagementSystem.MVCWebUI.Tools.Validation
 			else if (city.Length < 2 || city.Length > 50)
 				errors.Add(new ValidationError { Title = "City name length is wrong", Description = "City name must be between 2 and 50 characters." });
 
-			return errors;
-		}
+            if (errors.Count > 0)
+                return errors;
+            return null;
+        }
 
 		public List<ValidationError> CheckCountry(string country)
 		{
@@ -110,8 +122,10 @@ namespace GymManagementSystem.MVCWebUI.Tools.Validation
 			else if (country.Length < 2 || country.Length > 50)
 				errors.Add(new ValidationError { Title = "Country name length is wrong", Description = "Country name must be between 2 and 50 characters." });
 
-			return errors;
-		}
+            if (errors.Count > 0)
+                return errors;
+            return null;
+        }
 
 		public List<ValidationError> CheckSquareMeters(string squareMeters)
 		{
@@ -122,8 +136,10 @@ namespace GymManagementSystem.MVCWebUI.Tools.Validation
 			else if (squareMeters.Length < 2 || squareMeters.Length > 50)
 				errors.Add(new ValidationError { Title = "Square meters length is wrong", Description = "Square meters must be between 2 and 50 characters." });
 
-			return errors;
-		}
+            if (errors.Count > 0)
+                return errors;
+            return null;
+        }
 
 		public List<ValidationError> CheckBranchWorkingTime(string weekdaysOpeningTime, string weekdaysClosingTime, string weekendsOpeningTime, string weekendsClosingTime)
 		{
@@ -149,8 +165,10 @@ namespace GymManagementSystem.MVCWebUI.Tools.Validation
 			else if (weekendsClosingTime.Length < 2 || weekendsClosingTime.Length > 50)
 				errors.Add(new ValidationError { Title = "Weekends closing time length is wrong", Description = "Weekends closing time must be between 2 and 50 characters." });
 
-			return errors;
-		}
+            if (errors.Count > 0)
+                return errors;
+            return null;
+        }
 
 		public List<ValidationError> CheckCapacity(int capacity)
 		{
@@ -159,8 +177,10 @@ namespace GymManagementSystem.MVCWebUI.Tools.Validation
 			if (capacity < 100 || capacity > 700)
 				errors.Add(new ValidationError { Title = "Capacity length is wrong", Description = "Capacity must be between 100 and 700." });
 
-			return errors;
-		}
+            if (errors.Count > 0)
+                return errors;
+            return null;
+        }
 
 		public List<ValidationError> CheckNumberOfTools(int numberOfTools)
 		{
@@ -169,8 +189,10 @@ namespace GymManagementSystem.MVCWebUI.Tools.Validation
 			if (numberOfTools < 20 || numberOfTools > 500)
 				errors.Add(new ValidationError { Title = "Number of tools length is wrong", Description = "Number of tools must be between 20 and 500." });
 
-			return errors;
-		}
+            if (errors.Count > 0)
+                return errors;
+            return null;
+        }
 
 		public List<ValidationError> CheckNumberOfEmployee(int numberOfEmployee)
 		{
@@ -179,7 +201,9 @@ namespace GymManagementSystem.MVCWebUI.Tools.Validation
 			if (numberOfEmployee < 5 || numberOfEmployee > 100)
 				errors.Add(new ValidationError { Title = "Number of employee length is wrong", Description = "Number of employee must be between 5 and 100." });
 
-			return errors;
-		}
+            if (errors.Count > 0)
+                return errors;
+            return null;
+        }
 	}
 }

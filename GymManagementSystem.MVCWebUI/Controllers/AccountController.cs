@@ -12,6 +12,7 @@ using System.Drawing;
 using ZXing.QrCode;
 using ZXing;
 using ZXing.Windows.Compatibility;
+using GymManagementSystem.Core.Utilities.Errors;
 
 namespace GymManagementSystem.MVCWebUI.Controllers
 {
@@ -143,7 +144,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             // Validation
             UserValidator validator = new UserValidator(_userService);
 
-            List<List<IdentityError>> validationResults = new List<List<IdentityError>>();
+            List<List<ValidationError>> validationResults = new List<List<ValidationError>>();
 
             validationResults.Add(validator.CheckName(user.Name));
             validationResults.Add(validator.CheckSurname(user.Surname));
@@ -231,7 +232,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
 
             UserValidator validator = new UserValidator(_userService);
 
-            List<List<IdentityError>> validationResults = new List<List<IdentityError>>();
+            List<List<ValidationError>> validationResults = new List<List<ValidationError>>();
 
             validationResults.Add(validator.CheckPassword(passwordChangeViewModel.Password));
 
@@ -402,7 +403,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
 
             if(user != null)
             {
-                List<List<IdentityError>> validationResults = new List<List<IdentityError>>();
+                List<List<ValidationError>> validationResults = new List<List<ValidationError>>();
 
                 UserValidator validator = new UserValidator(_userService);
                 var passwordValidation = validator.CheckPassword(forgotPasswordViewModel.NewPassword);
@@ -459,7 +460,7 @@ namespace GymManagementSystem.MVCWebUI.Controllers
 
             UserValidator validator = new UserValidator(_userService);
 
-            List<List<IdentityError>> validationResults = new List<List<IdentityError>>();
+            List<List<ValidationError>> validationResults = new List<List<ValidationError>>();
 
             if(user.Name != model.Name)
                 validationResults.Add(validator.CheckName(model.Name));
