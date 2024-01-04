@@ -321,6 +321,8 @@ namespace GymManagementSystem.MVCWebUI.Controllers
                 user.UserName = model.Username;
                 await _userManager.UpdateAsync(user);
 
+                SendUserToEmail(user);
+
                 return RedirectToAction("Account", "Dashboard");
             }
 
