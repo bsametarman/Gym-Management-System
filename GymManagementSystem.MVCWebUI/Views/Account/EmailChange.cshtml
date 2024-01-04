@@ -19,7 +19,7 @@
     </head>
 
 <body class="text-center">
-    <form method="post" asp-action="UserEmailChange" class="col-lg-6 offset-lg-3">
+    <form method="post" asp-action="EmailChange" class="col-lg-6 offset-lg-3">
         <div class="row justify-content-center" style="margin: 10% 0 0 0">
 
 
@@ -34,8 +34,25 @@
 
             <div style="margin-bottom: 5%; margin-top: 2%">
                 <label asp-for="NewEmail" class="sr-only">New Email</label>
-                <input asp-for="NewEmail" class="form-control" placeholder="">
+                <input asp-for="NewEmail" class="form-control" type="email" placeholder="">
             </div>
+
+            @if (ViewBag.Errors != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @if (ViewBag.Errors.Count > 1)
+                    {
+                        @foreach (var error in ViewBag.Errors)
+                        {
+                            @error <br />
+                        }
+                    }
+                    else
+                    {
+                        @ViewBag.Errors[0]
+                    }
+                </div>
+            }
 
             <button class="btn btn-lg btn-outline-success btn-block" style="margin-top: 5%" type="submit">Change Email</button>
             <p class="mt-5 mb-3 text-muted"></p>

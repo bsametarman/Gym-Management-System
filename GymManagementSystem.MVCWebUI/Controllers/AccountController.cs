@@ -198,19 +198,43 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             return View();
         }
 
-        public async Task<IActionResult> UserEmailChange(string id, string newEmail)
+        [HttpPost]
+        public async Task<IActionResult> EmailChange(UserEmailChangeViewModel model)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            ViewBag.id = model.Id;
+            var user = await _userManager.FindByIdAsync(model.Id);
+            List<string> errors = new List<string>();
 
             if (user == null)
-                return View(id);
+                return View(model);
 
-            user.Email = newEmail;
-            await _userManager.UpdateAsync(user);
+            UserValidator validator = new UserValidator(_userService);
 
-            SendUserToEmail(user);
+            List<List<ValidationError>> validationResults = new List<List<ValidationError>>();
 
-            return RedirectToAction("Account", "Dashboard");
+            validationResults.Add(validator.CheckEmail(model.NewEmail));
+
+            foreach (var results in validationResults)
+            {
+                if (results != null)
+                    foreach (var error in results)
+                    {
+                        errors.Add(error.Description);
+                    }
+            }
+            ViewBag.Errors = errors;
+
+            if(errors.Count == 0)
+            {
+                user.Email = model.NewEmail;
+                await _userManager.UpdateAsync(user);
+
+                SendUserToEmail(user);
+
+                return RedirectToAction("Account", "Dashboard");
+            }
+
+            return View(model);
         }
 
         public IActionResult PasswordChange(string id)
@@ -266,17 +290,41 @@ namespace GymManagementSystem.MVCWebUI.Controllers
             return View();
         }
 
-        public async Task<IActionResult> UserUsernameChange(string id, string username)
+        [HttpPost]
+        public async Task<IActionResult> UsernameChange(UserUsernameChangeViewModel model)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            ViewBag.id = model.Id;
+            var user = await _userManager.FindByIdAsync(model.Id);
+            List<string> errors = new List<string>();
 
             if (user == null)
-                return View(id);
+                return View(model);
 
-            user.UserName = username;
-            await _userManager.UpdateAsync(user);
+            UserValidator validator = new UserValidator(_userService);
 
-            return RedirectToAction("Account", "Dashboard");
+            List<List<ValidationError>> validationResults = new List<List<ValidationError>>();
+
+            validationResults.Add(validator.CheckUsername(model.Username));
+
+            foreach (var results in validationResults)
+            {
+                if (results != null)
+                    foreach (var error in results)
+                    {
+                        errors.Add(error.Description);
+                    }
+            }
+            ViewBag.Errors = errors;
+
+            if(errors.Count == 0)
+            {
+                user.UserName = model.Username;
+                await _userManager.UpdateAsync(user);
+
+                return RedirectToAction("Account", "Dashboard");
+            }
+
+            return View(model);
         }
 
         public async Task<IActionResult> EditActiveState(string id)
